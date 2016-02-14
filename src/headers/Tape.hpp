@@ -15,7 +15,7 @@ typedef list<t_tape_field_value> t_tape;
 
 class Tape
 {
-    private:
+    protected:
         t_tape tape_;
         unsigned tape_ptr_;
         string filename_;
