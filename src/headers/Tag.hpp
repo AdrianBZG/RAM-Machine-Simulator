@@ -1,6 +1,8 @@
 #ifndef _TAG_HPP_
 #define _TAG_HPP_
 
+#pragma once
+
 #include <string>
 
 using namespace std;

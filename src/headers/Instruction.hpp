@@ -1,6 +1,8 @@
 #ifndef _INSTRUCTION_HPP_
 #define _INSTRUCTION_HPP_
 
+#pragma once
+
 #include <string>
 
 using namespace std;
