@@ -28,7 +28,7 @@ class Program
         ~Program();
         
         void load_program(t_program,t_tags);
-        t_program show_program();
+        t_program showProgram();
         bool addTag(Tag);
         bool existTag(Tag);
         Instruction run();
