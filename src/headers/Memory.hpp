@@ -6,13 +6,13 @@
 #include <vector>
 #include "Register.hpp"
 
+using namespace std;
+
 //Definición de tipos
 typedef *Register t_register;
 typedef vector<t_register> t_memory;
 typedef int t_register_value;
 //
-
-using namespace std;
 
 class Memory
 {
