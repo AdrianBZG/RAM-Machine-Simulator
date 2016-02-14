@@ -4,6 +4,7 @@
 #pragma once
 
 #include <vector>
+#include "Register.hpp"
 
 //Definición de tipos
 typedef *Register t_register;
