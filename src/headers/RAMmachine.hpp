@@ -29,7 +29,7 @@ class RAMmachine
         Program program_;
         InTape input_tape_;
         OutTape output_tape_;
-        bool state_; //RAM machine state -> True = Working, False = Halt State
+        bool state_; //RAM machine state -> True = Normal, False = Halt
         
     public:
         RAMmachine();
