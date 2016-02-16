@@ -2,6 +2,12 @@
     Author: Adrián Rodríguez Bazaga
     Contact: arodriba@ull.edu.es / alu0100826456@ull.edu.es
     Date: 14/02/2016
+    
+    Ficheros de entrada:
+    1. cinta_en.txt ---> Ya esta escrito, se lee al comienzo
+    2. progrram.txt ---> Cargar el programa, al comienzo
+    3. cinta_sal.txt ---> Aqui se escribe al final
+    
 */
 
 #ifndef _RAMMACHINE_HPP_
