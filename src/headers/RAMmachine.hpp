@@ -18,7 +18,7 @@ using namespace std;
 
 
 //Definición de tipos
-typedef int t_op;
+typedef Register* t_op;
 typedef vector<Tag> t_tags;
 //
 
