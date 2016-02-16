@@ -23,7 +23,7 @@ class Tape
 {
     protected:
         t_tape tape_;
-        unsigned tape_ptr_;
+        unsigned tape_it_;
         string filename_;
         
     public:
@@ -31,9 +31,11 @@ class Tape
         ~Tape();
         
         string getTapeValue();
-        void tapePtrMoveForward();
-        void setInputFile(string);
         virtual void reset() = 0;
+        
+    private:
+        void moveTapeForward();
+        void setInputFile(string);
 };
 
 #endif
