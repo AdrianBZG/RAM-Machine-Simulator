@@ -17,24 +17,24 @@ using namespace std;
 /* -- INFORMACIÓN --
 
 Modos de direccionamiento:
-0 = Inmediato
-1 = Directo
-2 = Indirecto
-3 = Etiqueta de salto
+001 = Inmediato
+010 = Directo
+011 = Indirecto
+100 = Etiqueta de salto
 
 Instrucciones:
-0 = LOAD
-1 = STORE
-2 = ADD
-3 = SUB
-4 = MULT
-5 = DIV
-6 = READ
-7 = WRITE
-8 = JUMP
-9 = JGTZ
-10 = JZERO
-11 = HALT
+0000 = LOAD
+0001 = STORE
+0010 = ADD
+0011 = SUB
+0100 = MULT
+0101 = DIV
+0110 = READ
+0111 = WRITE
+1000 = JUMP
+1001 = JGTZ
+1010 = JZERO
+1011 = HALT
 
 */
 
@@ -46,7 +46,7 @@ class Instruction
 {
     private:
         t_instruction_field opcode_;
-        t_instruction_field type_;
+        t_instruction_field mode_;
         t_instruction_field op_;
         
     public:
@@ -55,7 +55,7 @@ class Instruction
         ~Instruction();
         
         t_instruction_field get_opcode();
-        t_instruction_field get_type();
+        t_instruction_field get_mode();
         t_instruction_field get_op();
         
         void alter(Instruction);
