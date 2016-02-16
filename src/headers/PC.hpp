@@ -7,21 +7,25 @@
 #ifndef _PC_HPP_
 #define _PC_HPP_
 
+#pragma once
+
+#include "Instruction.hpp"
+
 //Definición de tipos
-typedef int t_pc_value;
+typedef Instruction* t_instruction;
 //
 
 class PC
 {
     private:
-        t_pc_value val_;
+        t_instruction current_;
         
     public:
         PC();
         ~PC();
         
-        t_pc_value getPC();
-        void setPC(t_pc_value);
+        t_instruction getPC();
+        void setPC(t_instruction);
 };
 
 #endif
