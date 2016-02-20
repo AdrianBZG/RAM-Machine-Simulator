@@ -18,6 +18,9 @@ Memory::Memory(void) {
 }
 
 Memory::~Memory(void) { 
+    for(int i=0; i<data_.size(); i++)
+        delete data_[i];
+        
     data_.clear();
 }
 

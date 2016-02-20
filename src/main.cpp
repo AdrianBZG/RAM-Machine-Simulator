@@ -8,6 +8,7 @@
 #include "headers/OutTape.hpp"
 #include "headers/Memory.hpp"
 #include "headers/Tag.hpp"
+#include "headers/PC.hpp"
 //
 
 using namespace std;
@@ -34,5 +35,7 @@ int main(int argc, char **argv) {
     memory1.print();
     
     Tag test1("hola", 1);
+    
+    PC pc1;
     
 }
