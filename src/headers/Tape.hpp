@@ -9,33 +9,32 @@
 
 #pragma once
 
-#include <list>
+#include <vector>
 #include <string>
+#include <fstream>
 
 using namespace std;
 
 //Definición de tipos
 typedef int t_tape_field_value;
-typedef list<t_tape_field_value> t_tape;
+typedef vector<t_tape_field_value> t_tape;
 //
 
 class Tape
 {
     protected:
         t_tape tape_;
-        unsigned tape_it_;
         string filename_;
         
     public:
         Tape();
         ~Tape();
-        
-        string getTapeValue();
         virtual void reset() = 0;
-        
-    private:
-        void moveTapeForward();
-        void setInputFile(string);
+        int getTapeSize();
+    
+    protected:
+        void setFile(string);
+        string getFile();
 };
 
 #endif

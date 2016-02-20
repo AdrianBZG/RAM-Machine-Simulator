@@ -20,6 +20,10 @@ class InTape: public Tape
         t_tape_field_value read();
         void reset();
         void readFromFile();
+    
+    private:
+     unsigned tape_it_;
+     void moveTapeForward();
 };
 
 #endif

@@ -7,8 +7,6 @@
 #ifndef _INSTRUCTION_HPP_
 #define _INSTRUCTION_HPP_
 
-#pragma once
-
 #include <string>
 
 using namespace std;
@@ -21,6 +19,7 @@ Modos de direccionamiento:
 010 = Directo
 011 = Indirecto
 100 = Etiqueta de salto
+101 = UNKNOWN
 
 Instrucciones:
 0000 = LOAD
@@ -35,10 +34,12 @@ Instrucciones:
 1001 = JGTZ
 1010 = JZERO
 1011 = HALT
+1100 = UNKNOWN
 
 */
 
 //Definición de tipos
+#define UNKNOWN_VALUE 9999
 typedef unsigned t_instruction_field;
 //
 

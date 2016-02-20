@@ -7,7 +7,12 @@
 #ifndef _REGISTER_HPP_
 #define _REGISTER_HPP_
 
+#include <iostream>
+
+using namespace std;
+
 //Definición de tipos
+#define UNKNOWN_VALUE 9999
 typedef int t_register_value;
 //
 
@@ -18,6 +23,7 @@ class Register
         
     public:
         Register();
+        Register(t_register_value);
         ~Register();
         
         void set_value(t_register_value);

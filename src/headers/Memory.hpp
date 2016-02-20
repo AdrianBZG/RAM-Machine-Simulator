@@ -15,7 +15,7 @@
 using namespace std;
 
 //Definición de tipos
-typedef *Register t_register;
+typedef Register* t_register;
 typedef vector<t_register> t_memory;
 typedef int t_register_value;
 //
@@ -28,11 +28,15 @@ class Memory
     public:
         Memory();
         ~Memory();
-        
-        void write(t_register_value,int);
+
         t_register_value read(int);
-        void reset();
+        t_register_value readAccum();
+        void write(t_register_value,int);
         void print();
+        void reset();
+    
+    private:
+        void writeAccum(t_register_value);
 };
 
 #endif

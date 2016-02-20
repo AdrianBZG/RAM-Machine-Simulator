@@ -25,9 +25,7 @@ class Tag
         t_line_number line_number_;
         
     public:
-        Tag();
         Tag(string,t_line_number);
-        Tag(string);
         ~Tag();
         
         string get_tag_identifier();
