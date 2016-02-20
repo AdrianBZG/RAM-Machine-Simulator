@@ -19,23 +19,20 @@ Tag::Tag(string identifier,t_line_number number) {
 }
 
 Tag::~Tag(void) { 
-    val_ = UNKNOWN_VALUE;
+    tag_identifier_ = "";
+    line_number_ = 0;
 }
 
-void Tag::set_value(t_register_value value) {
-    val_ = value;
+string Tag::get_tag_identifier(void) {
+    return tag_identifier_;
 }
 
-t_register_value Tag::get_value(void) {
-    return val_;
+t_line_number Tag::get_line_number(void) {
+    return line_number_;
 }
 
-void Tag::reset(void) {
-    val_ = UNKNOWN_VALUE;
-}
-
-void Tag::print() {
-    cout << val_ << endl;
+bool Tag::operator == (Tag& o) {
+    return ((get_tag_identifier() == o.get_tag_identifier()) && (get_line_number() == o.get_line_number()));
 }
 
 //

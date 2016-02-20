@@ -7,6 +7,7 @@
 #include "headers/InTape.hpp"
 #include "headers/OutTape.hpp"
 #include "headers/Memory.hpp"
+#include "headers/Tag.hpp"
 //
 
 using namespace std;
@@ -31,5 +32,7 @@ int main(int argc, char **argv) {
     memory1.write(1,1);
     memory1.write(2,6);
     memory1.print();
+    
+    Tag test1("hola", 1);
     
 }
