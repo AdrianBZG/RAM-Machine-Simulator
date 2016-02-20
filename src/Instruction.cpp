@@ -14,7 +14,7 @@ using namespace std;
 //Implementations
 
 Instruction::Instruction(void) {
-    //Not defined instruction
+    //Not defined instruction, using predefined values to identify
     opcode_ = 1100;
     mode_ = 101;
     op_ = UNKNOWN_VALUE;
