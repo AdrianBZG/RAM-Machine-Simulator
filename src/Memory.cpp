@@ -14,25 +14,22 @@ using namespace std;
 //Implementations
 
 Memory::Memory(void) {
-    data_.assign(32, nullptr);
+    data_.assign(32, new Register());
 }
 
 Memory::~Memory(void) { 
-    for(int i=0; i<data_.size(); i++)
-        delete data_[i];
-        
     data_.clear();
 }
 
 void Memory::write(t_register_value value, int regNumber) {
-    if(data_[regNumber] == nullptr)
+    if(data_[regNumber]->get_value() == UNKNOWN_VALUE)
         data_[regNumber] = new Register(value);
     else
         data_[regNumber]->set_value(value);
 }
 
 void Memory::writeAccum(t_register_value value) {
-    if(data_[0] == nullptr)
+    if(data_[0]->get_value() == UNKNOWN_VALUE)
         data_[0] = new Register(value);
     else
         data_[0]->set_value(value);
@@ -48,13 +45,13 @@ t_register_value Memory::read(int regNumber) {
 
 void Memory::reset(void) {
     data_.clear();
-    data_.assign(32, nullptr);
+    data_.assign(32, new Register());
 }
 
 void Memory::print() {
     cout << "\u15B0" << " Showing memory status " << "\u15B1" << endl << endl;
     for(int i = 0; i<data_.size(); i++)
-        if(data_[i] == nullptr)
+        if(data_[i]->get_value() == UNKNOWN_VALUE)
             cout << "R[" << i << "] " << "\u15CC" << " Empty Register" << endl;
         else
             cout << "R[" << i << "] " << "\u15CC" << " " << data_[i]->get_value() << endl;

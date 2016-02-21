@@ -45,7 +45,7 @@ class Program
         bool existTag(Tag);
         bool existTag(string);
         void moveToNextInstruction();
-        void setNextInstruction(Instruction);
+        void setNextInstruction(Instruction,int);
         t_program getProgram();
         t_tags getTags();
         PC getPC();

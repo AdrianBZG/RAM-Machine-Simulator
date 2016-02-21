@@ -20,6 +20,8 @@
 #include "OutTape.hpp"
 #include "Memory.hpp"
 
+#include <sstream>
+
 using namespace std;
 
 

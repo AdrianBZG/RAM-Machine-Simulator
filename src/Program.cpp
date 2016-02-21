@@ -327,8 +327,9 @@ PC Program::getPC() {
     return pc_;
 }
 
-void Program::setNextInstruction(Instruction ins) {
+void Program::setNextInstruction(Instruction ins, int line) {
     pc_.setPCinstruction(ins);
+    pc_.setCurrentLine(line);
 }
 
 void Program::moveToNextInstruction() {

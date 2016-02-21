@@ -72,17 +72,12 @@ void RAMmachine::printOutputTape() {
 
 void RAMmachine::do_load(void) {
     Instruction currentIns = program_.getPC().getPCinstruction();
-    switch(stoi(currentIns.get_mode())) {
-        case 001: // Immediate
-            memory_.writeAccum(stoi(currentIns.get_op()));
-            break;
-        case 011: // Indirect
-            memory_.writeAccum(memory_.read(memory_.read(stoi(currentIns.get_op()))));
-            break;
-        case 010: // Direct
-            memory_.writeAccum(memory_.read(stoi(currentIns.get_op())));
-            break;
-    }
+    
+    if(currentIns.get_mode() == "011") memory_.writeAccum(memory_.read(memory_.read(stoi(currentIns.get_op()))));
+    else if(currentIns.get_mode() == "001") memory_.writeAccum(stoi(currentIns.get_op()));
+    else if(currentIns.get_mode() == "010") memory_.writeAccum(memory_.read(stoi(currentIns.get_op())));
+
+    program_.moveToNextInstruction();
 }
 
 void RAMmachine::do_store(void) {
@@ -98,6 +93,7 @@ void RAMmachine::do_store(void) {
             memory_.write(memory_.read(stoi(currentIns.get_op())),memory_.readAccum());
             break;
     }
+    program_.moveToNextInstruction();
 }
 
 void RAMmachine::do_add(void) {
@@ -113,6 +109,7 @@ void RAMmachine::do_add(void) {
             memory_.writeAccum(memory_.readAccum()+memory_.read(stoi(currentIns.get_op())));
             break;
     }
+    program_.moveToNextInstruction();
 }
 
 void RAMmachine::do_sub(void) {
@@ -128,6 +125,7 @@ void RAMmachine::do_sub(void) {
             memory_.writeAccum(memory_.readAccum()-memory_.read(stoi(currentIns.get_op())));
             break;
     }
+    program_.moveToNextInstruction();
 }
 
 void RAMmachine::do_mult(void) {
@@ -143,6 +141,7 @@ void RAMmachine::do_mult(void) {
             memory_.writeAccum(memory_.readAccum()*memory_.read(stoi(currentIns.get_op())));
             break;
     }
+    program_.moveToNextInstruction();
 }
 
 void RAMmachine::do_div(void) {
@@ -158,110 +157,85 @@ void RAMmachine::do_div(void) {
             memory_.writeAccum(int(memory_.readAccum()/memory_.read(stoi(currentIns.get_op()))));
             break;
     }
+    program_.moveToNextInstruction();
 }
 
 void RAMmachine::do_read(void) {
     Instruction currentIns = program_.getPC().getPCinstruction();
-    switch(stoi(currentIns.get_mode())) {
-        case 001: // Immediate 
-            memory_.write(stoi(currentIns.get_op()),input_tape_.read());
-            break;
-        case 011: // Indirect
-            memory_.write(memory_.read(memory_.read(stoi(currentIns.get_op()))),input_tape_.read());
-            break;
-        case 010: // Direct
-            memory_.write(memory_.read(stoi(currentIns.get_op())),input_tape_.read());
-            break;
-    }
+
+    //Read operation has no immediate mode
+    if(currentIns.get_mode() == "011") memory_.write(input_tape_.read(),memory_.read(stoi(currentIns.get_op())));
+    else if(currentIns.get_mode() == "010") memory_.write(input_tape_.read(),stoi(currentIns.get_op()));
+    
+    program_.moveToNextInstruction();
 }
 
 void RAMmachine::do_write(void) {
     Instruction currentIns = program_.getPC().getPCinstruction();
-    switch(stoi(currentIns.get_mode())) {
-        case 001: // Immediate 
-            output_tape_.write(stoi(currentIns.get_op()));
-            break;
-        case 011: // Indirect
-            output_tape_.write(memory_.read(memory_.read(stoi(currentIns.get_op()))));
-            break;
-        case 010: // Direct
-            output_tape_.write(memory_.read(stoi(currentIns.get_op())));
-            break;
-    }
+    
+    if(currentIns.get_mode() == "011") output_tape_.write(memory_.read(memory_.read(stoi(currentIns.get_op()))));
+    else if(currentIns.get_mode() == "001") output_tape_.write(stoi(currentIns.get_op()));
+    else if(currentIns.get_mode() == "010") output_tape_.write(memory_.read(stoi(currentIns.get_op())));
+
+    program_.moveToNextInstruction();
 }
 
 void RAMmachine::do_jump(void) {
     Instruction currentIns = program_.getPC().getPCinstruction();
     int relPos = atoi(currentIns.get_mode().c_str());
-    program_.getPC().setPCinstruction(program_.getProgram()[relPos]);
+    program_.getPC().setCurrentLine(relPos);
+    program_.setNextInstruction(program_.getProgram()[relPos], relPos);
 }
 
 void RAMmachine::do_jgtz(void) {
+    Instruction currentIns = program_.getPC().getPCinstruction();
     if(memory_.read(0) > 0) {
-        Instruction currentIns = program_.getPC().getPCinstruction();
         int relPos = atoi(currentIns.get_mode().c_str());
-        program_.getPC().setPCinstruction(program_.getProgram()[relPos]);
+        program_.setNextInstruction(program_.getProgram()[relPos], relPos);
+    } else {
+        program_.moveToNextInstruction();
     }
 }
 
 void RAMmachine::do_jzero(void) {
+    Instruction currentIns = program_.getPC().getPCinstruction();
     if(memory_.read(0) == 0) {
-        Instruction currentIns = program_.getPC().getPCinstruction();
         int relPos = atoi(currentIns.get_mode().c_str());
-        program_.getPC().setPCinstruction(program_.getProgram()[relPos]);
+        program_.setNextInstruction(program_.getProgram()[relPos],relPos);
+    } else {
+        program_.moveToNextInstruction();
     }
 }
 
 void RAMmachine::do_halt(void) {
+    output_tape_.writeOnFile();
     state_=1;
 }
 
 void RAMmachine::run(bool verbose) {
     while(state_==0) {
         //Running
-        Instruction currentIns = program_.getPC().getPCinstruction(); //Current instruction
-        
-        switch(stoi(currentIns.get_opcode())) {
-            case 0000: // Load Operation 
-                do_load();
-                break;
-            case 0001: // Store Operation
-                do_store();
-                break;
-            case 0010: // Add Operation
-                do_add();
-                break;
-            case 0011: // Sub Operation
-                do_sub();
-                break;
-            case 0100: // Mult Operation
-                do_mult();
-                break;
-            case 0101: // Div Operation
-                do_div();
-                break;
-            case 0110: // Read Operation
-                do_read();
-                break;
-            case 0111: // Write Operation
-                do_write();
-                break;
-            case 1000: // Jump Operation
-                do_load();
-                break;
-            case 1001: // Jgtz Operation
-                do_jgtz();
-                break;
-            case 1010: // Jzero Operation
-                do_jzero();
-                break;
-            case 1011: // Halt Operation
-                do_halt();
-                break;
-        }
+        if(program_.getPC().getPCinstruction().get_opcode() == "0000") do_load();
+        else if(program_.getPC().getPCinstruction().get_opcode() == "0001") do_store();
+        else if(program_.getPC().getPCinstruction().get_opcode() == "0010") do_add();
+        else if(program_.getPC().getPCinstruction().get_opcode() == "0011") do_sub();
+        else if(program_.getPC().getPCinstruction().get_opcode() == "0100") do_mult();
+        else if(program_.getPC().getPCinstruction().get_opcode() == "0101") do_div();
+        else if(program_.getPC().getPCinstruction().get_opcode() == "0110") do_read();
+        else if(program_.getPC().getPCinstruction().get_opcode() == "0111") do_write();
+        else if(program_.getPC().getPCinstruction().get_opcode() == "1000") do_jump();
+        else if(program_.getPC().getPCinstruction().get_opcode() == "1001") do_jgtz();
+        else if(program_.getPC().getPCinstruction().get_opcode() == "1010") do_jzero();
+        else if(program_.getPC().getPCinstruction().get_opcode() == "1011") do_halt();
+        else cout << "No se que me estas diciendo" << endl;
     }
     
     //Failed or Halt
+    if(state_==1) {
+        cout << "Program exited with code 1! (Succesful)" << endl;
+    } else {
+        cout << "Program exited with code 2! (Failed)" << endl;
+    }
     //
 }
 

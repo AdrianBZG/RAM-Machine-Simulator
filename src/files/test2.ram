@@ -1,8 +1,8 @@
 ; Programa que reconoce el lenguaje formado por las 
-; palabras que tienen el mismo número de 1 y 2.
-; Las palabras finalizan con el número 0. 
-; Los únicos símbolos posibles de entrada son 0, 1 y 2.
-; La cinta de salida contendrá un 1 si se reconoce la palabra
+; palabras que tienen el mismo nero de 1 y 2.
+; Las palabras finalizan con el nero 0. 
+; Los icos sbolos posibles de entrada son 0, 1 y 2.
+; La cinta de salida contend un 1 si se reconoce la palabra
 ; y un 0 si no pertenece al lenguaje
 			LOAD =0
 			STORE 2
