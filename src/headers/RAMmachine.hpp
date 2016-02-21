@@ -4,9 +4,9 @@
     Date: 14/02/2016
     
     Ficheros de entrada:
-    1. Fichero de cinta de entrada ---> Ya esta escrito, se lee al comienzo
-    2. Fichero de programa RAM ---> Cargar el programa, al comienzo
-    3. Fichero de cinta de salida ---> Aqui se escribe al final
+    1. Fichero de cinta de entrada ---> Ya esta escrito, se lee al comienzo. Por defecto: files/intape_file.in
+    2. Fichero de programa RAM ---> Cargar el programa, al comienzo. Por defecto: files/ramprogram.ram
+    3. Fichero de cinta de salida ---> Aqui se escribe al final. Por defecto: files/outtape_file.out
     
 */
 
@@ -45,6 +45,7 @@ class RAMmachine
         
     public:
         RAMmachine();
+        RAMmachine(string,string,string);
         ~RAMmachine();
         
         void initMachine(string,string,string); //To initialize the RAM machine (In file, Out file, Program file)

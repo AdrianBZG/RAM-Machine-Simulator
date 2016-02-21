@@ -31,6 +31,7 @@ class Tape
         ~Tape();
         virtual void reset() = 0;
         int getTapeSize();
+        void print();
     
     protected:
         void setFile(string);

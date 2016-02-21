@@ -15,6 +15,8 @@ using namespace std;
 
 OutTape::OutTape(void) { }
 
+OutTape::OutTape(string inFile) { setFile(inFile); }
+
 OutTape::~OutTape(void) { }
 
 void OutTape::write(t_tape_field_value value) {

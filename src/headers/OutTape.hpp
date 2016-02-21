@@ -15,6 +15,7 @@ class OutTape: public Tape
 {
     public:
         OutTape();
+        OutTape(string);
         ~OutTape();
         
         void write(t_tape_field_value);

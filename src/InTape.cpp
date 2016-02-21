@@ -15,6 +15,11 @@ using namespace std;
 
 InTape::InTape(void) { tape_it_ = -1; }
 
+InTape::InTape(string inFile) { 
+    tape_it_ = -1;
+    setFile(inFile);
+}
+
 InTape::~InTape(void) { tape_it_ = -1; }
 
 t_tape_field_value InTape::read(void) {

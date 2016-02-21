@@ -15,6 +15,7 @@ class InTape: public Tape
 {
     public:
         InTape();
+        InTape(string);
         ~InTape();
         
         t_tape_field_value read();

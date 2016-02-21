@@ -34,5 +34,17 @@ int Tape::getTapeSize(void) {
     return tape_.size();
 }
 
+void Tape::print(void) {
+    cout << "[ ";
+    for(int i=0; i<=tape_size(); i++) {
+        if(i==tape_size()-1) {
+            cout << tape_[i] << " ]";
+        } else {
+            cout << tape_[i] << ", ";
+        }
+    }
+    cout << endl;
+}
+
 //
 #endif
