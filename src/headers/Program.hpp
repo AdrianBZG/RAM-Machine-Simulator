@@ -36,6 +36,7 @@ class Program
         string filename_;
         
     public:
+        Program();          //Program from default program file
         Program(string);
         ~Program();
         
@@ -49,6 +50,8 @@ class Program
         t_tags getTags();
         PC getPC();
         void reload(string);
+        void reset();
+        void initPC();
         
     private:
         bool addTag(Tag);
@@ -56,8 +59,6 @@ class Program
         string validateOperation(string);
         string validateMode(string);
         void processTags();
-        void initPC();
-        void reset();
 };
 
 #endif

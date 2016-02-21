@@ -8,6 +8,7 @@
 #define _PC_CPP_
 
 #include "headers/PC.hpp"
+#include <iostream>
 
 using namespace std;
 
@@ -25,11 +26,11 @@ PC::~PC(void) {
     current_line_ = 0;
 }
 
-t_instruction PC::getPC(void) {
+t_instruction PC::getPCinstruction(void) {
     return current_;
 }
 
-void PC::setPC(t_instruction ins) {
+void PC::setPCinstruction(t_instruction ins) {
     current_ = ins;
 }
 

@@ -26,8 +26,8 @@ class PC
         PC();
         ~PC();
         
-        t_instruction getPC();
-        void setPC(t_instruction);
+        t_instruction getPCinstruction();
+        void setPCinstruction(t_instruction);
         t_line getCurrentLine();
         void setCurrentLine(t_line);
 };

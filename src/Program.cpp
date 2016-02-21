@@ -13,6 +13,11 @@ using namespace std;
 
 //Implementations
 
+Program::Program(void) { 
+    filename_ = "files/ramprogram.ram";
+    loadProgramFromFile();
+}
+
 Program::Program(string filename) { 
     filename_ = filename;
     loadProgramFromFile();
@@ -219,7 +224,6 @@ void Program::processTags(void) {
             }
         }
     }
-    initPC();
 }
 
 string Program::validateOperation(string op) {
@@ -307,7 +311,7 @@ string Program::getFile() {
 }
 
 void Program::initPC(void) {
-    pc_.setPC(program_[0]);
+    pc_.setPCinstruction(Instruction(program_[0].get_opcode(),program_[0].get_mode(),program_[0].get_op()));
     pc_.setCurrentLine(0);
 }
 
@@ -324,12 +328,12 @@ PC Program::getPC() {
 }
 
 void Program::setNextInstruction(Instruction ins) {
-    pc_.setPC(ins);
+    pc_.setPCinstruction(ins);
 }
 
 void Program::moveToNextInstruction() {
     pc_.setCurrentLine(pc_.getCurrentLine()+1);
-    pc_.setPC(program_[pc_.getCurrentLine()]);
+    pc_.setPCinstruction(program_[pc_.getCurrentLine()]);
 }
 
 void Program::reset() {
