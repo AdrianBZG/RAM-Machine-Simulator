@@ -98,65 +98,41 @@ void RAMmachine::do_store(void) {
 
 void RAMmachine::do_add(void) {
     Instruction currentIns = program_.getPC().getPCinstruction();
-    switch(stoi(currentIns.get_mode())) {
-        case 001: // Immediate
-            memory_.writeAccum(memory_.readAccum()+stoi(currentIns.get_op()));
-            break;
-        case 011: // Indirect
-            memory_.writeAccum(memory_.readAccum()+memory_.read(memory_.read(stoi(currentIns.get_op()))));
-            break;
-        case 010: // Direct
-            memory_.writeAccum(memory_.readAccum()+memory_.read(stoi(currentIns.get_op())));
-            break;
-    }
+    
+    if(currentIns.get_mode() == "011") memory_.writeAccum(memory_.readAccum()+memory_.read(memory_.read(stoi(currentIns.get_op()))));  //Indirect
+    else if(currentIns.get_mode() == "001") memory_.writeAccum(memory_.readAccum()+stoi(currentIns.get_op()));                         //Immediate
+    else if(currentIns.get_mode() == "010") memory_.writeAccum(memory_.readAccum()+memory_.read(stoi(currentIns.get_op())));           //Direct
+    
     program_.moveToNextInstruction();
 }
 
 void RAMmachine::do_sub(void) {
     Instruction currentIns = program_.getPC().getPCinstruction();
-    switch(stoi(currentIns.get_mode())) {
-        case 001: // Immediate
-            memory_.writeAccum(memory_.readAccum()-stoi(currentIns.get_op()));
-            break;
-        case 011: // Indirect
-            memory_.writeAccum(memory_.readAccum()-memory_.read(memory_.read(stoi(currentIns.get_op()))));
-            break;
-        case 010: // Direct
-            memory_.writeAccum(memory_.readAccum()-memory_.read(stoi(currentIns.get_op())));
-            break;
-    }
+    
+    if(currentIns.get_mode() == "011") memory_.writeAccum(memory_.readAccum()-memory_.read(memory_.read(stoi(currentIns.get_op()))));  //Indirect
+    else if(currentIns.get_mode() == "001") memory_.writeAccum(memory_.readAccum()-stoi(currentIns.get_op()));                         //Immediate
+    else if(currentIns.get_mode() == "010") memory_.writeAccum(memory_.readAccum()-memory_.read(stoi(currentIns.get_op())));           //Direct
+    
     program_.moveToNextInstruction();
 }
 
 void RAMmachine::do_mult(void) {
     Instruction currentIns = program_.getPC().getPCinstruction();
-    switch(stoi(currentIns.get_mode())) {
-        case 001: // Immediate
-            memory_.writeAccum(memory_.readAccum()*stoi(currentIns.get_op()));
-            break;
-        case 011: // Indirect
-            memory_.writeAccum(memory_.readAccum()*memory_.read(memory_.read(stoi(currentIns.get_op()))));
-            break;
-        case 010: // Direct
-            memory_.writeAccum(memory_.readAccum()*memory_.read(stoi(currentIns.get_op())));
-            break;
-    }
+
+    if(currentIns.get_mode() == "011") memory_.writeAccum(memory_.readAccum()*memory_.read(memory_.read(stoi(currentIns.get_op()))));  //Indirect
+    else if(currentIns.get_mode() == "001") memory_.writeAccum(memory_.readAccum()*stoi(currentIns.get_op()));                         //Immediate
+    else if(currentIns.get_mode() == "010") memory_.writeAccum(memory_.readAccum()*memory_.read(stoi(currentIns.get_op())));           //Direct
+    
     program_.moveToNextInstruction();
 }
 
 void RAMmachine::do_div(void) {
     Instruction currentIns = program_.getPC().getPCinstruction();
-    switch(stoi(currentIns.get_mode())) {
-        case 001: // Immediate
-            memory_.writeAccum(int(memory_.readAccum()/stoi(currentIns.get_op())));
-            break;
-        case 011: // Indirect
-            memory_.writeAccum(int(memory_.readAccum()/memory_.read(memory_.read(stoi(currentIns.get_op())))));
-            break;
-        case 010: // Direct
-            memory_.writeAccum(int(memory_.readAccum()/memory_.read(stoi(currentIns.get_op()))));
-            break;
-    }
+    
+    if(currentIns.get_mode() == "011") memory_.writeAccum(int(memory_.readAccum()/memory_.read(memory_.read(stoi(currentIns.get_op())))));  //Indirect
+    else if(currentIns.get_mode() == "001") memory_.writeAccum(int(memory_.readAccum()/stoi(currentIns.get_op())));                         //Immediate
+    else if(currentIns.get_mode() == "010") memory_.writeAccum(int(memory_.readAccum()/memory_.read(stoi(currentIns.get_op()))));           //Direct
+    
     program_.moveToNextInstruction();
 }
 
