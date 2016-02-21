@@ -82,15 +82,7 @@ bool Program::loadProgramFromFile() {
                 subStr3 = string(subStr2.begin()+ocurrency+1,subStr2.end());    //Modo+Operando
                 subStr4 = string(subStr3.begin()+1,subStr3.end()); //Operando
                 //Now we can add it safely to the Program
-                
-                cout << "La operacion es " << subStr1 << " " << validateOperation(subStr1) << endl;
                 program_.push_back(Instruction(validateOperation(subStr1), subStr3, subStr4));
-                if(validateMode(subStr3) != "010" && validateMode(subStr3) != "100") {
-                    cout << "El modo es " << subStr3 << " " << validateMode(subStr3) << endl;
-                    cout << "El operando es " << subStr4 << endl;
-                } else {
-                    cout << "El operando es " << subStr3 << endl;
-                }
                 //
             }
             else { //Tiene un solo elemento, no tiene operando
@@ -125,11 +117,6 @@ bool Program::loadProgramFromFile() {
                 string op = string(str2, ocurrency+1, str2.length());
                 
             }
-            
-            //Debug
-            cout << endl;
-            //End Debug
-            
             current_line++; //Incrementing the current line (relative to the file)
         }
     }
