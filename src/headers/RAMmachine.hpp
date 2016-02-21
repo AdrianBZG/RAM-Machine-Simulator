@@ -4,9 +4,9 @@
     Date: 14/02/2016
     
     Ficheros de entrada:
-    1. cinta_en.txt ---> Ya esta escrito, se lee al comienzo
-    2. progrram.txt ---> Cargar el programa, al comienzo
-    3. cinta_sal.txt ---> Aqui se escribe al final
+    1. Fichero de cinta de entrada ---> Ya esta escrito, se lee al comienzo
+    2. Fichero de programa RAM ---> Cargar el programa, al comienzo
+    3. Fichero de cinta de salida ---> Aqui se escribe al final
     
 */
 
