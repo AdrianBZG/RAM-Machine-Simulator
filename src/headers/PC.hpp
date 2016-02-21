@@ -12,13 +12,15 @@
 #include "Instruction.hpp"
 
 //Definición de tipos
-typedef Instruction* t_instruction;
+typedef Instruction t_instruction;
+typedef unsigned t_line;
 //
 
 class PC
 {
     private:
         t_instruction current_;
+        t_line current_line_;
         
     public:
         PC();
@@ -26,6 +28,8 @@ class PC
         
         t_instruction getPC();
         void setPC(t_instruction);
+        t_line getCurrentLine();
+        void setCurrentLine(t_line);
 };
 
 #endif

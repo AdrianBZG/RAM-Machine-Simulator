@@ -14,11 +14,15 @@ using namespace std;
 //Implementations
 
 PC::PC() {
-    current_ = nullptr;
+    Instruction defaultEmptyIns;
+    current_ = defaultEmptyIns;
+    current_line_ = 0;
 }
 
 PC::~PC(void) { 
-    delete current_;
+    Instruction defaultEmptyIns;
+    current_ = defaultEmptyIns;
+    current_line_ = 0;
 }
 
 t_instruction PC::getPC(void) {
@@ -27,6 +31,14 @@ t_instruction PC::getPC(void) {
 
 void PC::setPC(t_instruction ins) {
     current_ = ins;
+}
+
+t_line PC::getCurrentLine(void) {
+    return current_line_;
+}
+
+void PC::setCurrentLine(t_line line) {
+    current_line_ = line;
 }
 
 //

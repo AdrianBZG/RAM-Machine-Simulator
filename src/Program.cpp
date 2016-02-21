@@ -15,6 +15,7 @@ using namespace std;
 
 Program::Program(string filename) { 
     filename_ = filename;
+    loadProgramFromFile();
 }
 
 Program::~Program(void) { 
@@ -80,7 +81,21 @@ bool Program::loadProgramFromFile() {
             {
                 subStr1 = string(subStr2.begin(),subStr2.begin()+ocurrency);    //Operacion
                 subStr3 = string(subStr2.begin()+ocurrency+1,subStr2.end());    //Modo+Operando
-                subStr4 = string(subStr3.begin()+1,subStr3.end()); //Operando
+                //Remove possible spaces after the element if it was before commentaries
+                string subStr3noSpaces;
+                for (auto letter : subStr3) {
+                    if (letter != '\t' && letter != ' ') {
+                        subStr3noSpaces += letter;
+                    }
+                }
+                subStr3 = subStr3noSpaces;
+                //
+                if(subStr3.length() > 1) {
+                    subStr4 = string(subStr3.begin()+1,subStr3.end()); //Op if not immediate
+                } else {
+                    subStr4 = string(subStr3.begin(),subStr3.end()); //Op if immediate
+                }
+                
                 //Now we can add it safely to the Program
                 program_.push_back(Instruction(validateOperation(subStr1), subStr3, subStr4));
                 //
@@ -88,8 +103,7 @@ bool Program::loadProgramFromFile() {
             else { //Tiene un solo elemento, no tiene operando
                 subStr1 = subStr2;
                 //Now we can add it safely to the Program
-                cout << "La operacion es " << subStr1 << " " << validateOperation(subStr1) << endl;
-                program_.push_back(Instruction(validateOperation(subStr1), "NULL", "NULL"));
+                program_.push_back(Instruction(validateOperation(subStr1), "HALT", "HALT"));
                 //
             }
             
@@ -98,24 +112,64 @@ bool Program::loadProgramFromFile() {
             if(ocurrencyOfTag != string::npos) {
                 //It has a tag, so we need to add it
                 ident = string(str2, 0, ocurrencyOfTag);
+                string insLine = string(str2.begin()+ocurrencyOfTag+1, str2.end());
                 //Spaces or \t after the : ??
-                string result;
+                string result;  //Tag
+                string result2; //Instruction
                 
                 for (auto letter : ident)
                     if (letter != ' ' && letter != '\t')
                     result += letter;
+                    
+                while(isspace(insLine[0]) || insLine[0] == '\t') {
+                    insLine.erase(insLine.begin());
+                }
                 
-                ident = result;
+                ident = result;    //Tag identifier
+                //Parse the instruction
+                ocurrency = insLine.find(" ");
+                result2 = insLine;
+                if(ocurrency != string::npos) //Tiene 2 elementos, por lo que debemos extraer el segundo
+                {
+                    insLine = string(result2.begin(),result2.begin()+ocurrency);    //Operacion
+                    subStr3 = string(result2.begin()+ocurrency+1,result2.end());    //Modo+Operando
+                    //Remove possible spaces after the element if it was before commentaries
+                    string subStr3noSpaces;
+                    for (auto letter : subStr3) {
+                        if (letter != '\t' && letter != ' ') {
+                            subStr3noSpaces += letter;
+                        }
+                    }
+                    subStr3 = subStr3noSpaces;
+                    //
+                    if(subStr3.length() > 1) {
+                        subStr4 = string(subStr3.begin()+1,subStr3.end()); //Op if not immediate
+                    } else {
+                        subStr4 = string(subStr3.begin(),subStr3.end()); //Op if immediate
+                    }
+                
+                    //Now we can add it safely to the Program
+                    program_.back().alter(Instruction(validateOperation(insLine), subStr3, subStr4));
+                    //
+                }
+                else { //Tiene un solo elemento, no tiene operando
+                    insLine = subStr2;
+                    string insLinenoSpaces;
+                    for (auto letter : insLine) {
+                        if (letter != '\t' && letter != ' ') {
+                            insLinenoSpaces += letter;
+                        }
+                    }
+                    insLine = insLinenoSpaces;
+                    
+                    //Now we can add it safely to the Program
+                    program_.back().alter(Instruction(validateOperation(insLine), "HALT", "HALT"));
+                    //
+                }
+                //
                 //
                 //Add the tag to the vector
                 addTag(Tag(ident,current_line,current_line-1));
-            } else {
-                //Instruction line, without tag
-                //Parse it
-                ocurrency = str2.find(" ");
-                string operation = string(str2, 0, ocurrency);
-                string op = string(str2, ocurrency+1, str2.length());
-                
             }
             current_line++; //Incrementing the current line (relative to the file)
         }
@@ -128,13 +182,15 @@ bool Program::loadProgramFromFile() {
 }
 
 void Program::showProgram(void) {
-    //
-    cout << "Hay estas operaciones: " << program_.size() << endl;
+    cout << "\u15B0" << " Showing program info " << "\u15B1" << endl << endl;
+    cout << "The program has " << program_.size() << " loaded instructions." << endl;
+    cout << "Also, the program has " << tags_.size() << " defined tags." << endl << endl;
+    cout << "The instructions are (in order of load): " << endl;
     for(int i = 0; i<program_.size(); i++) {
         if(program_[i].get_op() != "SALTO") {
-            cout << "Instruccion: " << program_[i].get_opcode() << " Modo: " << program_[i].get_mode() << " Operando: " << program_[i].get_op() << endl;
+            cout << "Instruction [" << i+1 << "] " << "\u15CC" << " " << program_[i].get_opcode() << ", mode: " << program_[i].get_mode() << ", op: " << program_[i].get_op() << endl;
         } else {
-            cout << "Instruccion: " << program_[i].get_opcode() << " A la etiqueta: " << program_[i].get_mode() << endl;
+            cout << "Instruction [" << i+1 << "] " << "\u15CC" << " " << program_[i].get_opcode() << ", of type 'Jump' to line (fetched from Tag): " << program_[i].get_mode() << endl;
         }
     }
 }
@@ -156,9 +212,14 @@ void Program::processTags(void) {
                 
             }
         } else {
-            program_[i].alter(Instruction(program_[i].get_opcode(),validateMode(program_[i].get_mode()),program_[i].get_op()));
+            if(program_[i].get_opcode() != "1011") {
+                program_[i].alter(Instruction(program_[i].get_opcode(),validateMode(program_[i].get_mode()),program_[i].get_op()));
+            } else {
+                program_[i].alter(Instruction(program_[i].get_opcode(),program_[i].get_mode(),program_[i].get_op()));
+            }
         }
     }
+    initPC();
 }
 
 string Program::validateOperation(string op) {
@@ -245,9 +306,46 @@ string Program::getFile() {
     return filename_;
 }
 
-bool Program::run(void) {
-    //Ejecutar el programa, devolver si la instrucción fue exitosa (True) o no (False) 
+void Program::initPC(void) {
+    pc_.setPC(program_[0]);
+    pc_.setCurrentLine(0);
 }
+
+t_program Program::getProgram() {
+    return program_;
+}
+
+t_tags Program::getTags() {
+    return tags_;
+}
+
+PC Program::getPC() {
+    return pc_;
+}
+
+void Program::setNextInstruction(Instruction ins) {
+    pc_.setPC(ins);
+}
+
+void Program::moveToNextInstruction() {
+    pc_.setCurrentLine(pc_.getCurrentLine()+1);
+    pc_.setPC(program_[pc_.getCurrentLine()]);
+}
+
+void Program::reset() {
+    program_.clear();
+    PC defaultPC;
+    pc_ = defaultPC;
+    tags_.clear();
+    filename_ = "";
+}
+
+void Program::reload(string filename) {
+    reset();
+    filename_ = filename;
+    loadProgramFromFile();
+}
+
 
 //
 #endif

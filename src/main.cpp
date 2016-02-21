@@ -16,7 +16,7 @@ using namespace std;
 
 int main(int argc, char **argv) {
     Instruction Ins1;
-    cout << "Opcode: " << Ins1.get_opcode() << ", Mode: " << Ins1.get_mode() << ", Op: " << Ins1.get_op() << endl;
+    //cout << "Opcode: " << Ins1.get_opcode() << ", Mode: " << Ins1.get_mode() << ", Op: " << Ins1.get_op() << endl;
     InTape intape1;
     intape1.readFromFile();
     for(int i=0; i<intape1.getTapeSize(); i++)
@@ -33,14 +33,13 @@ int main(int argc, char **argv) {
     Memory memory1;
     memory1.write(1,1);
     memory1.write(2,6);
-    memory1.print();
+    //memory1.print();
     
     Tag test1("hola", 1, 1);
     
     PC pc1;
     
     Program prog1("files/ramprogram.txt");
-    prog1.loadProgramFromFile();
     prog1.showProgram();
     
 }

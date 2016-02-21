@@ -41,9 +41,14 @@ class Program
         
         bool loadProgramFromFile();
         void showProgram();
-        bool run();
         bool existTag(Tag);
         bool existTag(string);
+        void moveToNextInstruction();
+        void setNextInstruction(Instruction);
+        t_program getProgram();
+        t_tags getTags();
+        PC getPC();
+        void reload(string);
         
     private:
         bool addTag(Tag);
@@ -51,6 +56,8 @@ class Program
         string validateOperation(string);
         string validateMode(string);
         void processTags();
+        void initPC();
+        void reset();
 };
 
 #endif
