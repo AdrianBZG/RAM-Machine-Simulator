@@ -24,7 +24,6 @@ using namespace std;
 
 
 //Definición de tipos
-typedef Register* t_op;
 typedef vector<Tag> t_tags;
 //
 
@@ -33,9 +32,11 @@ class RAMmachine
     private:
         Memory memory_;
         Program program_;
-        Tape* input_tape_;
-        Tape* output_tape_;
+        InTape input_tape_;
+        OutTape output_tape_;
         // Poliformismo en tiempo de ejecución
+        // Tape* input_tape_;
+        // Tape* output_tape_;
         // if(input_tape_ = dynamic_cast<InTape*>(input_tape_))
         // if(output_tape_ = dynamic_cast<OutTape*>(output_tape_))
         // Manejar excepciones en caso de transformacion no satisfactoria
@@ -46,28 +47,28 @@ class RAMmachine
         RAMmachine();
         ~RAMmachine();
         
-        void readCode(string,string,string);
-        void run(bool);
+        void initMachine(string,string,string); //To initialize the RAM machine (In file, Out file, Program file)
+        void run(bool); //To start the machine, bool for verbose
         
-        void printInstruction(Instruction);
-        void printMemory();
-        void printProgram();
+        void printCurrentInstruction();
+        void showMemoryStatus();
+        void showProgram();
         void printInputTape();
         void printOutputTape();
         
     private:
     
         // Funciones para el juego de instrucciones
-        void do_load(t_op,t_op);
-        void do_store(t_op,t_op);
-        void do_add(t_op,t_op);
-        void do_sub(t_op,t_op);
-        void do_mult(t_op,t_op);
-        void do_div(t_op,t_op);
-        void do_read(t_op,t_op);
-        void do_write(t_op,t_op);
-        void do_jgtz(t_op);
-        void do_jzero(t_op);
+        void do_load();
+        void do_store();
+        void do_add();
+        void do_sub();
+        void do_mult();
+        void do_div();
+        void do_read();
+        void do_write();
+        void do_jgtz();
+        void do_jzero();
         void do_halt();
         //
         
