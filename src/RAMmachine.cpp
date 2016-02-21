@@ -21,6 +21,7 @@ RAMmachine::RAMmachine(void) {
     input_tape_.readFromFile();
     output_tape_ = OutTape("files/outtape_file.out");
     memory_.reset();
+    state_ = 0;
 }
 
 RAMmachine::RAMmachine(string inFile, string outFile, string ramFile) { 
@@ -38,6 +39,7 @@ void RAMmachine::initMachine(string inFile, string outFile, string ramFile) {
     input_tape_.readFromFile();
     output_tape_ = OutTape(outFile);
     memory_.reset();
+    state_ = 0;
 }
 
 void RAMmachine::printCurrentInstruction(void) {
@@ -212,6 +214,55 @@ void RAMmachine::do_jzero(void) {
 
 void RAMmachine::do_halt(void) {
     state_=1;
+}
+
+void RAMmachine::run(bool verbose) {
+    while(state_==0) {
+        //Running
+        Instruction currentIns = program_.getPC().getPCinstruction(); //Current instruction
+        
+        switch(stoi(currentIns.get_opcode())) {
+            case 0000: // Load Operation 
+                do_load();
+                break;
+            case 0001: // Store Operation
+                do_store();
+                break;
+            case 0010: // Add Operation
+                do_add();
+                break;
+            case 0011: // Sub Operation
+                do_sub();
+                break;
+            case 0100: // Mult Operation
+                do_mult();
+                break;
+            case 0101: // Div Operation
+                do_div();
+                break;
+            case 0110: // Read Operation
+                do_read();
+                break;
+            case 0111: // Write Operation
+                do_write();
+                break;
+            case 1000: // Jump Operation
+                do_load();
+                break;
+            case 1001: // Jgtz Operation
+                do_jgtz();
+                break;
+            case 1010: // Jzero Operation
+                do_jzero();
+                break;
+            case 1011: // Halt Operation
+                do_halt();
+                break;
+        }
+    }
+    
+    //Failed or Halt
+    //
 }
 
 void RAMmachine::resetMachine(void) {
