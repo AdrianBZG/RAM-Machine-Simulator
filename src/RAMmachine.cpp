@@ -129,6 +129,17 @@ void RAMmachine::do_read(void) {
 
 void RAMmachine::do_write(void) {
     Instruction currentIns = program_.getPC().getPCinstruction();
+    switch(stoi(currentIns.get_mode())) {
+        case 001: // Immediate 
+            output_tape_.write(stoi(currentIns.get_op()));
+            break;
+        case 011: // Indirect
+            output_tape_.write(memory_.read(memory_.read(stoi(currentIns.get_op()))));
+            break;
+        case 010: // Direct
+            output_tape_.write(memory_.read(stoi(currentIns.get_op())));
+            break;
+    }
 }
 
 void RAMmachine::do_jump(void) {
