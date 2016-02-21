@@ -30,7 +30,7 @@ void OutTape::reset(void) {
 void OutTape::writeOnFile() {
     //Here we write tape's data on the output file
     ofstream outputFile;
-    outputFile.open("files/outtape_file.txt");
+    outputFile.open(getFile());
     if (outputFile.is_open()) {
         for(int i=0; i<getTapeSize(); i++) {
             outputFile << tape_[i] << endl;

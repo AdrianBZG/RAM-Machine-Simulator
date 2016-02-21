@@ -18,6 +18,7 @@ RAMmachine::RAMmachine(void) {
     program_ = Program("files/ramprogram.ram");
     program_.initPC();
     input_tape_ = InTape("files/intape_file.in");
+    input_tape_.readFromFile();
     output_tape_ = OutTape("files/outtape_file.out");
     memory_.reset();
 }
@@ -34,6 +35,7 @@ void RAMmachine::initMachine(string inFile, string outFile, string ramFile) {
     program_ = Program(ramFile);
     program_.initPC();
     input_tape_ = InTape(inFile);
+    input_tape_.readFromFile();
     output_tape_ = OutTape(outFile);
     memory_.reset();
 }
