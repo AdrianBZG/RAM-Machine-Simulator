@@ -102,13 +102,13 @@ void RAMmachine::do_add(void) {
     Instruction currentIns = program_.getPC().getPCinstruction();
     switch(stoi(currentIns.get_mode())) {
         case 001: // Immediate
-            memory_.writeAccum(stoi(currentIns.get_op())+memory_.readAccum());
+            memory_.writeAccum(memory_.readAccum()+stoi(currentIns.get_op()));
             break;
         case 011: // Indirect
-            memory_.writeAccum(memory_.read(memory_.read(stoi(currentIns.get_op())))+memory_.readAccum());
+            memory_.writeAccum(memory_.readAccum()+memory_.read(memory_.read(stoi(currentIns.get_op()))));
             break;
         case 010: // Direct
-            memory_.writeAccum(memory_.read(stoi(currentIns.get_op()))+memory_.readAccum());
+            memory_.writeAccum(memory_.readAccum()+memory_.read(stoi(currentIns.get_op())));
             break;
     }
 }
@@ -117,13 +117,13 @@ void RAMmachine::do_sub(void) {
     Instruction currentIns = program_.getPC().getPCinstruction();
     switch(stoi(currentIns.get_mode())) {
         case 001: // Immediate
-            memory_.writeAccum(stoi(currentIns.get_op())-memory_.readAccum());
+            memory_.writeAccum(memory_.readAccum()-stoi(currentIns.get_op()));
             break;
         case 011: // Indirect
-            memory_.writeAccum(memory_.read(memory_.read(stoi(currentIns.get_op())))-memory_.readAccum());
+            memory_.writeAccum(memory_.readAccum()-memory_.read(memory_.read(stoi(currentIns.get_op()))));
             break;
         case 010: // Direct
-            memory_.writeAccum(memory_.read(stoi(currentIns.get_op()))-memory_.readAccum());
+            memory_.writeAccum(memory_.readAccum()-memory_.read(stoi(currentIns.get_op())));
             break;
     }
 }
@@ -132,13 +132,13 @@ void RAMmachine::do_mult(void) {
     Instruction currentIns = program_.getPC().getPCinstruction();
     switch(stoi(currentIns.get_mode())) {
         case 001: // Immediate
-            memory_.writeAccum(stoi(currentIns.get_op())*memory_.readAccum());
+            memory_.writeAccum(memory_.readAccum()*stoi(currentIns.get_op()));
             break;
         case 011: // Indirect
-            memory_.writeAccum(memory_.read(memory_.read(stoi(currentIns.get_op())))*memory_.readAccum());
+            memory_.writeAccum(memory_.readAccum()*memory_.read(memory_.read(stoi(currentIns.get_op()))));
             break;
         case 010: // Direct
-            memory_.writeAccum(memory_.read(stoi(currentIns.get_op()))*memory_.readAccum());
+            memory_.writeAccum(memory_.readAccum()*memory_.read(stoi(currentIns.get_op())));
             break;
     }
 }
@@ -147,13 +147,13 @@ void RAMmachine::do_div(void) {
     Instruction currentIns = program_.getPC().getPCinstruction();
     switch(stoi(currentIns.get_mode())) {
         case 001: // Immediate
-            memory_.writeAccum(int(stoi(currentIns.get_op())/memory_.readAccum()));
+            memory_.writeAccum(int(memory_.readAccum()/stoi(currentIns.get_op())));
             break;
         case 011: // Indirect
-            memory_.writeAccum(int(memory_.read(memory_.read(stoi(currentIns.get_op())))/memory_.readAccum()));
+            memory_.writeAccum(int(memory_.readAccum()/memory_.read(memory_.read(stoi(currentIns.get_op())))));
             break;
         case 010: // Direct
-            memory_.writeAccum(int(memory_.read(stoi(currentIns.get_op()))/memory_.readAccum()));
+            memory_.writeAccum(int(memory_.readAccum()/memory_.read(stoi(currentIns.get_op()))));
             break;
     }
 }
