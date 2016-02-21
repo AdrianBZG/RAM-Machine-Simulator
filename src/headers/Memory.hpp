@@ -32,11 +32,9 @@ class Memory
         t_register_value read(int);
         t_register_value readAccum();
         void write(t_register_value,int);
+        void writeAccum(t_register_value);
         void print();
         void reset();
-    
-    private:
-        void writeAccum(t_register_value);
 };
 
 #endif

@@ -67,47 +67,72 @@ void RAMmachine::printOutputTape() {
 }
 
 void RAMmachine::do_load(void) {
-    //
+    Instruction currentIns = program_.getPC().getPCinstruction();
+    switch(stoi(currentIns.get_mode())) {
+        case 001: //Inmediato
+            memory_.writeAccum(stoi(currentIns.get_op()));
+            break;
+        case 011: //Indirecto
+            memory_.writeAccum(memory_.read(memory_.read(stoi(currentIns.get_op()))));
+            break;
+        case 010: //Directo
+            memory_.writeAccum(memory_.read(stoi(currentIns.get_op())));
+            break;
+    }
 }
 
 void RAMmachine::do_store(void) {
-    //
+    Instruction currentIns = program_.getPC().getPCinstruction();
 }
 
 void RAMmachine::do_add(void) {
-    //
+    Instruction currentIns = program_.getPC().getPCinstruction();
 }
 
 void RAMmachine::do_sub(void) {
-    //
+    Instruction currentIns = program_.getPC().getPCinstruction();
 }
 
 void RAMmachine::do_mult(void) {
-    //
+    Instruction currentIns = program_.getPC().getPCinstruction();
 }
 
 void RAMmachine::do_div(void) {
-    //
+    Instruction currentIns = program_.getPC().getPCinstruction();
 }
 
 void RAMmachine::do_read(void) {
-    //
+    Instruction currentIns = program_.getPC().getPCinstruction();
 }
 
 void RAMmachine::do_write(void) {
-    //
+    Instruction currentIns = program_.getPC().getPCinstruction();
+}
+
+void RAMmachine::do_jump(void) {
+    Instruction currentIns = program_.getPC().getPCinstruction();
+    int relPos = atoi(currentIns.get_mode().c_str());
+    program_.getPC().setPCinstruction(program_.getProgram()[relPos]);
 }
 
 void RAMmachine::do_jgtz(void) {
-    //
+    if(memory_.read(0) > 0) {
+        Instruction currentIns = program_.getPC().getPCinstruction();
+        int relPos = atoi(currentIns.get_mode().c_str());
+        program_.getPC().setPCinstruction(program_.getProgram()[relPos]);
+    }
 }
 
 void RAMmachine::do_jzero(void) {
-    //
+    if(memory_.read(0) == 0) {
+        Instruction currentIns = program_.getPC().getPCinstruction();
+        int relPos = atoi(currentIns.get_mode().c_str());
+        program_.getPC().setPCinstruction(program_.getProgram()[relPos]);
+    }
 }
 
 void RAMmachine::do_halt(void) {
-    //
+    state_=1;
 }
 
 void RAMmachine::resetMachine(void) {

@@ -68,6 +68,7 @@ class RAMmachine
         void do_div();
         void do_read();
         void do_write();
+        void do_jump();
         void do_jgtz();
         void do_jzero();
         void do_halt();
