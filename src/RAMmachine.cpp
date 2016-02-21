@@ -69,13 +69,13 @@ void RAMmachine::printOutputTape() {
 void RAMmachine::do_load(void) {
     Instruction currentIns = program_.getPC().getPCinstruction();
     switch(stoi(currentIns.get_mode())) {
-        case 001: //Inmediato
+        case 001: //Immediate
             memory_.writeAccum(stoi(currentIns.get_op()));
             break;
-        case 011: //Indirecto
+        case 011: //Indirect
             memory_.writeAccum(memory_.read(memory_.read(stoi(currentIns.get_op()))));
             break;
-        case 010: //Directo
+        case 010: //Direct
             memory_.writeAccum(memory_.read(stoi(currentIns.get_op())));
             break;
     }
