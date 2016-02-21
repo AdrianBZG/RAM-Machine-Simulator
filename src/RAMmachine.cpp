@@ -115,6 +115,17 @@ void RAMmachine::do_add(void) {
 
 void RAMmachine::do_sub(void) {
     Instruction currentIns = program_.getPC().getPCinstruction();
+    switch(stoi(currentIns.get_mode())) {
+        case 001: // Immediate
+            memory_.writeAccum(stoi(currentIns.get_op())-memory_.readAccum());
+            break;
+        case 011: // Indirect
+            memory_.writeAccum(memory_.read(memory_.read(stoi(currentIns.get_op())))-memory_.readAccum());
+            break;
+        case 010: // Direct
+            memory_.writeAccum(memory_.read(stoi(currentIns.get_op()))-memory_.readAccum());
+            break;
+    }
 }
 
 void RAMmachine::do_mult(void) {
