@@ -13,6 +13,11 @@
 #include "Instruction.hpp"
 #include "Tag.hpp"
 #include <vector>
+#include <string>
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include <ctype.h>
 
 using namespace std;
 
@@ -28,16 +33,24 @@ class Program
         t_program program_;
         PC pc_;
         t_tags tags_;
+        string filename_;
         
     public:
-        Program();
+        Program(string);
         ~Program();
         
-        void load_program(t_program,t_tags);
-        t_program showProgram();
-        bool addTag(Tag);
+        bool loadProgramFromFile();
+        void showProgram();
+        bool run();
         bool existTag(Tag);
-        Instruction run();
+        bool existTag(string);
+        
+    private:
+        bool addTag(Tag);
+        string getFile();
+        string validateOperation(string);
+        string validateMode(string);
+        void processTags();
 };
 
 #endif

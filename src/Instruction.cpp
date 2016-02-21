@@ -15,9 +15,9 @@ using namespace std;
 
 Instruction::Instruction(void) {
     //Not defined instruction, using predefined values to identify
-    opcode_ = 1100;
-    mode_ = 101;
-    op_ = UNKNOWN_VALUE;
+    opcode_ = "1100";
+    mode_ = "101";
+    op_ = UNKNOWN_VALUE_INSTRUCTION;
 }
 
 Instruction::Instruction(t_instruction_field opcode, t_instruction_field mode, t_instruction_field op) {
@@ -27,9 +27,9 @@ Instruction::Instruction(t_instruction_field opcode, t_instruction_field mode, t
 }
 
 Instruction::~Instruction(void) {
-    opcode_ = UNKNOWN_VALUE;
-    mode_ = UNKNOWN_VALUE;
-    op_ = UNKNOWN_VALUE;
+    opcode_ = UNKNOWN_VALUE_INSTRUCTION;
+    mode_ = UNKNOWN_VALUE_INSTRUCTION;
+    op_ = UNKNOWN_VALUE_INSTRUCTION;
 }
 
 t_instruction_field Instruction::get_opcode(void) {

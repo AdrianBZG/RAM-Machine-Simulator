@@ -40,7 +40,7 @@ class RAMmachine
         // if(output_tape_ = dynamic_cast<OutTape*>(output_tape_))
         // Manejar excepciones en caso de transformacion no satisfactoria
         //
-        bool state_; //RAM machine state -> True = Normal, False = Halt
+        unsigned state_; //RAM machine state -> 0 = Normal, 1 = Halt, 2 = Failed
         
     public:
         RAMmachine();

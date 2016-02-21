@@ -9,6 +9,7 @@
 #include "headers/Memory.hpp"
 #include "headers/Tag.hpp"
 #include "headers/PC.hpp"
+#include "headers/Program.hpp"
 //
 
 using namespace std;
@@ -34,8 +35,12 @@ int main(int argc, char **argv) {
     memory1.write(2,6);
     memory1.print();
     
-    Tag test1("hola", 1);
+    Tag test1("hola", 1, 1);
     
     PC pc1;
+    
+    Program prog1("files/ramprogram.txt");
+    prog1.loadProgramFromFile();
+    prog1.showProgram();
     
 }
