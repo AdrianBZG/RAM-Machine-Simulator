@@ -3,23 +3,23 @@
 ## By Adrián Rodríguez Bazaga
 ### Contact email: arodriba@ull.edu.es / alu0100826456@ull.edu.es
 
-## Dependencies
+# Dependencies
 
 ```sh
 $ sudo apt-get install build-essential 
 ```
 Uses *C++11*
 
-## Build Status
+# Build Status
 ![](http://i.imgur.com/7gvWrxI.png?1)
 
-## How to compile?
-### Use make inside the /src/ directory. Compilation uses dynamic linking, so only classes that have changed will be compiled, the others will be linked using the object (.o) that's inside ./obj/ directory.
+# How to compile?
+Use make inside the /src/ directory. Compilation uses dynamic linking, so only classes that have changed will be compiled, the others will be linked using the object (.o) that's inside ./obj/ directory.
 
-## How to execute?
-### The result of the compilation is placed inside /src/compiled folder, with the name RAMmachine, to execute it just use ./src/compiled/RAMmachine from the root directory
+# How to execute?
+The result of the compilation is placed inside /src/compiled folder, with the name RAMmachine, to execute it just use ./src/compiled/RAMmachine from the root directory
 
-## Download source code
+# Download source code
 
 ```sh
 $ git clone https://github.com/AdrianBZG/RAM-Machine-Simulator.git
