@@ -26,3 +26,6 @@
 *.exe
 *.out
 *.app
+
+# Doxygen Configuration File
+doxygen.conf
