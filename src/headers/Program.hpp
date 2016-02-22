@@ -56,6 +56,7 @@ class Program
     private:
         bool addTag(Tag);
         string getFile();
+        Instruction validateOperation(string,Instruction&,string,int&);
 };
 
 #endif

@@ -87,62 +87,11 @@ bool Program::loadProgramFromFile() {
 	
 	for (int i = 0; i < ins.size(); i++){
 		firstspace = ins[i].find_first_of(" \t\f\v\n\r");
+		
+		//We validate the operation and push it to catchedInstruction if it's a valid one
 		aux = ins[i].substr(0, firstspace);
 		dummy.alter(Instruction("-1","-1","-1"));
-		if (aux == "LOAD" || aux == "load") {
-			dummy.alter(Instruction("0000","-1","-1"));
-			catchedInstructions.push_back(dummy);
-		}
-		else if (aux == "STORE" || aux == "store") {
-			dummy.alter(Instruction("0001","-1","-1"));
-			catchedInstructions.push_back(dummy);
-		}
-		else if (aux == "ADD" || aux == "add") {
-			dummy.alter(Instruction("0010","-1","-1"));
-			catchedInstructions.push_back(dummy);
-		}
-		else if (aux == "SUB" || aux == "sub") {
-			dummy.alter(Instruction("0011","-1","-1"));
-			catchedInstructions.push_back(dummy);
-		}
-		else if (aux == "MULT" || aux == "mult") {
-			dummy.alter(Instruction("0100","-1","-1"));
-			catchedInstructions.push_back(dummy);
-		}
-		else if (aux == "DIV" || aux == "div") {
-			dummy.alter(Instruction("0101","-1","-1"));
-			catchedInstructions.push_back(dummy);
-		}
-		else if (aux == "READ" || aux == "read") {
-			dummy.alter(Instruction("0110","-1","-1"));
-			catchedInstructions.push_back(dummy);
-		}
-		else if (aux == "WRITE" || aux == "write") {
-			dummy.alter(Instruction("0111","-1","-1"));
-			catchedInstructions.push_back(dummy);
-		}
-		else if (aux == "JUMP" || aux == "jump") {
-			//If it's a jump, the temp Mode is 100
-			dummy.alter(Instruction("1000","100","-1"));
-			catchedInstructions.push_back(dummy);
-		}
-		else if (aux == "JGTZ" || aux == "jgtz") {
-			dummy.alter(Instruction("1001","100","-1"));
-			catchedInstructions.push_back(dummy);
-		}
-		else if (aux == "JZERO" || aux == "jzero") {
-			dummy.alter(Instruction("1010","100","-1"));
-			catchedInstructions.push_back(dummy);
-		}
-		else if (aux == "HALT" || aux == "halt") {
-			dummy.alter(Instruction("1011","-1","-1"));
-			catchedInstructions.push_back(dummy);
-		}
-		else {
-			cerr << "Error: Unknown instruction [" << ins[i] << "] (Line: " << i << ")" << endl;
-			error = true;
-			break;
-		}
+		catchedInstructions.push_back(validateOperation(aux,dummy,ins[i],i));
 		
 		if (catchedInstructions[i].get_opcode() == "1011") {
 			if (ins[i] != "HALT") {
@@ -222,6 +171,53 @@ void Program::showProgram(void) {
             cout << "Instruction [" << i+1 << "] " << "\u15CC" << " " << program_[i].get_opcode() << ", of type 'Jump' to line (fetched from Tag): " << program_[i].get_mode() << endl;
         }
     }
+}
+
+Instruction Program::validateOperation(string str,Instruction& dum, string str2, int& it) {
+	
+	if (str == "LOAD" || str == "load") {
+		dum.alter(Instruction("0000","-1","-1"));
+	}
+	else if (str == "STORE" || str == "store") {
+		dum.alter(Instruction("0001","-1","-1"));
+	}
+	else if (str == "ADD" || str == "add") {
+		dum.alter(Instruction("0010","-1","-1"));
+	}
+	else if (str == "SUB" || str == "sub") {
+		dum.alter(Instruction("0011","-1","-1"));
+	}
+	else if (str == "MULT" || str == "mult") {
+		dum.alter(Instruction("0100","-1","-1"));
+	}
+	else if (str == "DIV" || str == "div") {
+		dum.alter(Instruction("0101","-1","-1"));
+	}
+	else if (str == "READ" || str == "read") {
+		dum.alter(Instruction("0110","-1","-1"));
+	}
+	else if (str == "WRITE" || str == "write") {
+		dum.alter(Instruction("0111","-1","-1"));
+	}
+	else if (str == "JUMP" || str == "jump") {
+		//If it's a jump, the temp Mode is 100
+		dum.alter(Instruction("1000","100","-1"));
+	}
+	else if (str == "JGTZ" || str == "jgtz") {
+		dum.alter(Instruction("1001","100","-1"));
+	}
+	else if (str == "JZERO" || str == "jzero") {
+		dum.alter(Instruction("1010","100","-1"));
+	}
+	else if (str == "HALT" || str == "halt") {
+		dum.alter(Instruction("1011","-1","-1"));
+	}
+	else {
+		cerr << "Error: Unknown instruction [" << str2 << "] (Line: " << it << ")" << endl;
+		exit(EXIT_FAILURE);
+	}
+	
+	return dum;
 }
 
 bool Program::addTag(Tag tag) {
