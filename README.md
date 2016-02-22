@@ -25,6 +25,10 @@ The result of the compilation is placed inside /src/compiled folder, with the na
 $ git clone https://github.com/AdrianBZG/RAM-Machine-Simulator.git
 ```
 
+# Documentation
+
+Take a look at the documentation by clicking [here](http://adrianbzg.github.io/RAM-Machine-Simulator/html/).
+
 # Copyright and license
 
     Copyright 2016 - Adrián Rodríguez Bazaga
