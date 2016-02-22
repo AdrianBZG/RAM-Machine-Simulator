@@ -1,32 +1,58 @@
-CC=g++
-CFLAGS=-c -w
-SOURCES=./src/main.cpp ./src/algo1.cpp ./src/algo2.cpp ./src/algo3.cpp
-OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=RAMmachine
+# Target executable name
+TARGET = ./compiled/RAMmachine
 
-all: $(SOURCES) $(EXECUTABLE)
+#OBJ directory
+OBJ_DIR=../obj
 
-$(EXECUTABLE): $(OBJECTS) 
-    $(CC) $(OBJECTS) -o $@
-    
-.cpp.o:
-    $(CC) $(CFLAGS) $< -o $@
+#SRC directory
+SRC_DIR=.
 
-#main.o:		./src/main.cpp
-#				$(CC) $(CFLAGS) ./src/main.cpp -o ../bin/main.o -std=c++11
+#CXX = Compiler
+CXX=g++
 
+# Source files
+SOURCES = main.cpp RAMmachine.cpp Program.cpp Memory.cpp Register.cpp Instruction.cpp Tag.cpp PC.cpp Tape.cpp InTape.cpp OutTape.cpp
 
-#algo1.o:  ./src/algo1.cpp
-#				$(CC) $(CFLAGS) ./src/algo1.cpp -o ../bin/algo1.o -std=c++11
-				
-#algo2.o:  ./src/algo2.cpp
-#				$(CC) $(CFLAGS) ./src/algo2.cpp -o ../bin/algo2.o -std=c++11
-				
-#algo3.o:  ./src/algo3.cpp
-#				$(CC) $(CFLAGS) ./src/algo3.cpp -o ../bin/algo3.o -std=c++11
+# Work out names of object files from sources
+#OBJECTS = $(SOURCES:.cpp=.o)
+OBJECTS=$(OBJ_DIR)/main.o \
+	$(OBJ_DIR)/RAMmachine.o \
+	$(OBJ_DIR)/Program.o \
+	$(OBJ_DIR)/Memory.o \
+	$(OBJ_DIR)/Register.o \
+	$(OBJ_DIR)/Tape.o \
+	$(OBJ_DIR)/InTape.o \
+	$(OBJ_DIR)/OutTape.o \
+	$(OBJ_DIR)/Instruction.o \
+	$(OBJ_DIR)/PC.o \
+	$(OBJ_DIR)/Tag.o \
 
-#RAMmachine: ../bin/main.o ../bin/algo1.o ../bin/algo2.o ../bin/algo3.o
-#				$(CC) ../bin/main.o ../bin/algo1.o ../bin/algo2.o ../bin/algo3.o -o ./src/compiled/RAMmachine -std=c++11
+# Flags
+CXXFLAGS = -std=c++11 -I.
 
-clean:		  
-				rm -rf ../bin/*.o RAMmachine
+# Default target (to build all)
+all: ${TARGET}
+
+# Clean target
+clean:
+		rm ${OBJECTS} ${TARGET}
+		
+# Rule to link object files to create target executable
+${TARGET}: ${OBJECTS}
+		${LINK.cc} -o $@ $^
+		
+# Rule to compile each required object (class)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+		$(CXX) -c -o $@ $(CXXFLAGS) $<
+
+# Header dependencies
+$(OBJ_DIR)/RAMmachine.o: headers/RAMmachine.hpp
+$(OBJ_DIR)/Program.o: headers/Program.hpp
+$(OBJ_DIR)/Memory.o: headers/Memory.hpp
+$(OBJ_DIR)/Register.o: headers/Register.hpp
+$(OBJ_DIR)/Instruction.o: headers/Instruction.hpp
+$(OBJ_DIR)/Tag.o: headers/Tag.hpp
+$(OBJ_DIR)/PC.o: headers/PC.hpp
+$(OBJ_DIR)/Tape.o: headers/Tape.hpp
+$(OBJ_DIR)/InTape.o: headers/InTape.hpp
+$(OBJ_DIR)/OutTape.o: headers/OutTape.hpp

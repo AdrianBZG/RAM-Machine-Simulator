@@ -2,6 +2,7 @@
 *.slo
 *.lo
 *.o
+!obj/
 *.obj
 
 # Precompiled Headers
@@ -25,7 +26,8 @@
 # Executables
 *.exe
 *.out
+!src/compiled/
 *.app
 
-# Doxygen Configuration File
-doxygen.conf
+# Configuration Files
+*.conf
