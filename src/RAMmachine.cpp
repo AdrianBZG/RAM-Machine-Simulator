@@ -82,17 +82,11 @@ void RAMmachine::do_load(void) {
 
 void RAMmachine::do_store(void) {
     Instruction currentIns = program_.getPC().getPCinstruction();
-    switch(stoi(currentIns.get_mode())) {
-        case 001: // Immediate 
-            memory_.write(stoi(currentIns.get_op()),memory_.readAccum());
-            break;
-        case 011: // Indirect
-            memory_.write(memory_.read(memory_.read(stoi(currentIns.get_op()))),memory_.readAccum());
-            break;
-        case 010: // Direct
-            memory_.write(memory_.read(stoi(currentIns.get_op())),memory_.readAccum());
-            break;
-    }
+
+    //Write operation has no immediate mode
+    if(currentIns.get_mode() == "011") memory_.write(memory_.readAccum(),memory_.read(stoi(currentIns.get_op())));  //Indirect
+    else if(currentIns.get_mode() == "010") memory_.write(memory_.readAccum(),stoi(currentIns.get_op()));           //Direct
+
     program_.moveToNextInstruction();
 }
 
@@ -138,11 +132,11 @@ void RAMmachine::do_div(void) {
 
 void RAMmachine::do_read(void) {
     Instruction currentIns = program_.getPC().getPCinstruction();
-
+ 
     //Read operation has no immediate mode
     if(currentIns.get_mode() == "011") memory_.write(input_tape_.read(),memory_.read(stoi(currentIns.get_op())));
     else if(currentIns.get_mode() == "010") memory_.write(input_tape_.read(),stoi(currentIns.get_op()));
-    
+
     program_.moveToNextInstruction();
 }
 
@@ -203,7 +197,10 @@ void RAMmachine::run(bool verbose) {
         else if(program_.getPC().getPCinstruction().get_opcode() == "1001") do_jgtz();
         else if(program_.getPC().getPCinstruction().get_opcode() == "1010") do_jzero();
         else if(program_.getPC().getPCinstruction().get_opcode() == "1011") do_halt();
-        else cout << "No se que me estas diciendo" << endl;
+        else { 
+            cerr << "Error: Unknown instruction" << endl;
+            exit(EXIT_FAILURE);
+        }
     }
     
     //Failed or Halt

@@ -15,7 +15,6 @@ using namespace std;
 
 Program::Program(void) { 
     filename_ = "files/ramprogram.ram";
-    loadProgramFromFile();
 }
 
 Program::Program(string filename) { 
@@ -31,159 +30,184 @@ Program::~Program(void) {
 
 bool Program::loadProgramFromFile() {
     //Here we read from file and parse the result to load the program
-    ifstream programFile;
-    //Temp variables
-    string str1;                //To save the entire line
-    string str2;                //To save the parsed result
-    string ident;               //Tag identifier found in the line
-    unsigned current_line = 1;  //Line number
-    //
-
-    programFile.open(getFile());
-    if (programFile.is_open()) {
-        for(string str3; getline( programFile, str3 );) {
-            
-            // Remove commentaries ;
-            size_t ocurrency = str3.find(";");
-            if(ocurrency != string::npos) {
-                //Found
-                //Is it pos 0? (Begin of line, so it's a full line commentary)
-                if(ocurrency == 0) continue; //Yes, we don't want this line
-                
-                //In other case
-                //If before the ; was a space, we remove it
-                if(isspace(str3[ocurrency-1])) {
-                    str3 = string(str3, 0, ocurrency-1);
-                } else { // Or not remove if it wasn't a space
-                    str3 = string(str3, 0, ocurrency);
-                }
-            }
-            str2 = str3;
-            // End remove commentaries
-            
-            //Remove spaces or \t before the first letter
-            while(isspace(str3[0]) || str3[0] == '\t') {
-                str3.erase(str3.begin());
-            }
-            str2 = string(str3);
-            //
-            
-            //First, let's save the instruction
-            size_t ocurrencyOfTag = str2.find(":");
-            string subStr1(str2.begin()+ocurrencyOfTag+1,str2.end());
-            string subStr2;
-            string subStr3;
-            string subStr4;
-            for (auto letter : subStr1) {
-                if (letter != '\t') {
-                    subStr2 += letter;
-                }
-            }
-            
-            ocurrency = subStr2.find(" ");
-            subStr1 = string(subStr2.begin(),subStr2.begin()); //Operacion
-            if(ocurrency != string::npos) //Tiene 2 elementos, por lo que debemos extraer el segundo
-            {
-                subStr1 = string(subStr2.begin(),subStr2.begin()+ocurrency);    //Operacion
-                subStr3 = string(subStr2.begin()+ocurrency+1,subStr2.end());    //Modo+Operando
-                //Remove possible spaces after the element if it was before commentaries
-                string subStr3noSpaces;
-                for (auto letter : subStr3) {
-                    if (letter != '\t' && letter != ' ') {
-                        subStr3noSpaces += letter;
-                    }
-                }
-                subStr3 = subStr3noSpaces;
-                //
-                if(subStr3.length() > 1) {
-                    subStr4 = string(subStr3.begin()+1,subStr3.end()); //Op if not immediate
-                } else {
-                    subStr4 = string(subStr3.begin(),subStr3.end()); //Op if immediate
-                }
-                
-                //Now we can add it safely to the Program
-                program_.push_back(Instruction(validateOperation(subStr1), subStr3, subStr4));
-                //
-            }
-            else { //Tiene un solo elemento, no tiene operando
-                subStr1 = subStr2;
-                //Now we can add it safely to the Program
-                program_.push_back(Instruction(validateOperation(subStr1), "HALT", "HALT"));
-                //
-            }
-            
-            //
-            //Now we process the tag
-            if(ocurrencyOfTag != string::npos) {
-                //It has a tag, so we need to add it
-                ident = string(str2, 0, ocurrencyOfTag);
-                string insLine = string(str2.begin()+ocurrencyOfTag+1, str2.end());
-                //Spaces or \t after the : ??
-                string result;  //Tag
-                string result2; //Instruction
-                
-                for (auto letter : ident)
-                    if (letter != ' ' && letter != '\t')
-                    result += letter;
-                    
-                while(isspace(insLine[0]) || insLine[0] == '\t') {
-                    insLine.erase(insLine.begin());
-                }
-                
-                ident = result;    //Tag identifier
-                //Parse the instruction
-                ocurrency = insLine.find(" ");
-                result2 = insLine;
-                if(ocurrency != string::npos) //Tiene 2 elementos, por lo que debemos extraer el segundo
-                {
-                    insLine = string(result2.begin(),result2.begin()+ocurrency);    //Operacion
-                    subStr3 = string(result2.begin()+ocurrency+1,result2.end());    //Modo+Operando
-                    //Remove possible spaces after the element if it was before commentaries
-                    string subStr3noSpaces;
-                    for (auto letter : subStr3) {
-                        if (letter != '\t' && letter != ' ') {
-                            subStr3noSpaces += letter;
-                        }
-                    }
-                    subStr3 = subStr3noSpaces;
-                    //
-                    if(subStr3.length() > 1) {
-                        subStr4 = string(subStr3.begin()+1,subStr3.end()); //Op if not immediate
-                    } else {
-                        subStr4 = string(subStr3.begin(),subStr3.end()); //Op if immediate
-                    }
-                
-                    //Now we can add it safely to the Program
-                    program_.back().alter(Instruction(validateOperation(insLine), subStr3, subStr4));
-                    //
-                }
-                else { //Tiene un solo elemento, no tiene operando
-                    insLine = subStr2;
-                    string insLinenoSpaces;
-                    for (auto letter : insLine) {
-                        if (letter != '\t' && letter != ' ') {
-                            insLinenoSpaces += letter;
-                        }
-                    }
-                    insLine = insLinenoSpaces;
-                    
-                    //Now we can add it safely to the Program
-                    program_.back().alter(Instruction(validateOperation(insLine), "HALT", "HALT"));
-                    //
-                }
-                //
-                //
-                //Add the tag to the vector
-                addTag(Tag(ident,current_line,current_line-1));
-            }
-            current_line++; //Incrementing the current line (relative to the file)
-        }
-    }
-    programFile.close();
     
-    //Process the Tags to set the correct line to jump in the program (Instructions) and check if they exist
-    processTags();
-    //
+    //Temp variables
+    vector<string> ins;
+	ifstream file;
+	string aux;
+	char reader[80];
+	int comment;
+	int tagsymbol;
+	int firstspace, firstnotspace;
+	
+	//Temp structures to store the instruction we find on the program file and then push them to the 'program_'
+	vector<Instruction> catchedInstructions;
+	Instruction dummy;
+	//
+	
+	//Boolean var to detect errors, if it's True at the end of this func, program will end
+	bool error = false; 
+	//
+
+	file.open(getFile());
+
+	if (file.good()) {
+		while (!file.eof()){ //Read until end of file
+			file.getline(reader, 255); //Get the line
+			aux = reader;
+			comment = aux.find(";"); //Search for commentaries
+		
+			if (comment != string::npos)  //Commentary found, create substring without it
+				aux = aux.substr(0, comment);
+						
+			if (aux.length() != 0 && (aux.find_first_not_of(" \t\f\v\n\r") != string::npos)) { 
+			    //Result string is not empty and it has \t \f \v \n or \r
+			    //\t: tab, \f: form feed, \v: vertical tab, \n: new line, \r: carriage return
+				ins.push_back(aux); //Push it back
+				if ((tagsymbol = ins.back().find(":")) != string::npos) {
+					aux = ins.back().substr(0, tagsymbol); //Substring until : symbol
+					aux.erase(remove_if(aux.begin(), aux.end(), ::isspace), aux.end()); //Remove spaces
+					
+					//Add the tag to the vector
+					addTag(Tag(aux,ins.size(),ins.size() - 1));
+					
+					ins.back() = ins.back().substr(tagsymbol + 1);
+				}
+
+				ins.back().erase(0, ins.back().find_first_not_of(" \t\f\v\n\r"));
+				ins.back().erase(ins.back().find_last_not_of(" \t\f\v\n\r") + 1);
+			}
+		}
+	}
+	else {
+		cerr << "Error: Couldn't open the file, exiting." << endl;
+		exit(EXIT_FAILURE);
+	}
+	file.close();
+	
+	for (int i = 0; i < ins.size(); i++){
+		firstspace = ins[i].find_first_of(" \t\f\v\n\r");
+		aux = ins[i].substr(0, firstspace);
+		dummy.alter(Instruction("-1","-1","-1"));
+		if (aux == "LOAD" || aux == "load") {
+			dummy.alter(Instruction("0000","-1","-1"));
+			catchedInstructions.push_back(dummy);
+		}
+		else if (aux == "STORE" || aux == "store") {
+			dummy.alter(Instruction("0001","-1","-1"));
+			catchedInstructions.push_back(dummy);
+		}
+		else if (aux == "ADD" || aux == "add") {
+			dummy.alter(Instruction("0010","-1","-1"));
+			catchedInstructions.push_back(dummy);
+		}
+		else if (aux == "SUB" || aux == "sub") {
+			dummy.alter(Instruction("0011","-1","-1"));
+			catchedInstructions.push_back(dummy);
+		}
+		else if (aux == "MULT" || aux == "mult") {
+			dummy.alter(Instruction("0100","-1","-1"));
+			catchedInstructions.push_back(dummy);
+		}
+		else if (aux == "DIV" || aux == "div") {
+			dummy.alter(Instruction("0101","-1","-1"));
+			catchedInstructions.push_back(dummy);
+		}
+		else if (aux == "READ" || aux == "read") {
+			dummy.alter(Instruction("0110","-1","-1"));
+			catchedInstructions.push_back(dummy);
+		}
+		else if (aux == "WRITE" || aux == "write") {
+			dummy.alter(Instruction("0111","-1","-1"));
+			catchedInstructions.push_back(dummy);
+		}
+		else if (aux == "JUMP" || aux == "jump") {
+			//If it's a jump, the temp Mode is 100
+			dummy.alter(Instruction("1000","100","-1"));
+			catchedInstructions.push_back(dummy);
+		}
+		else if (aux == "JGTZ" || aux == "jgtz") {
+			dummy.alter(Instruction("1001","100","-1"));
+			catchedInstructions.push_back(dummy);
+		}
+		else if (aux == "JZERO" || aux == "jzero") {
+			dummy.alter(Instruction("1010","100","-1"));
+			catchedInstructions.push_back(dummy);
+		}
+		else if (aux == "HALT" || aux == "halt") {
+			dummy.alter(Instruction("1011","-1","-1"));
+			catchedInstructions.push_back(dummy);
+		}
+		else {
+			cerr << "Error: Unknown instruction [" << ins[i] << "] (Line: " << i << ")" << endl;
+			error = true;
+			break;
+		}
+		
+		if (catchedInstructions[i].get_opcode() == "1011") {
+			if (ins[i] != "HALT") {
+				error = true;
+				break;
+			}
+		}
+		else if (catchedInstructions[i].get_mode() == "100") {
+			firstnotspace = ins[i].find_first_not_of(" \t\f\v\n\r", firstspace);
+			aux = ins[i].substr(firstnotspace);
+			catchedInstructions[i].alter(Instruction(catchedInstructions[i].get_opcode(),aux,"SALTO"));
+			bool isaTag = existTag(aux);
+            if(isaTag) {
+                for(int j=0; j<tags_.size(); j++) {
+                    if(tags_[j].get_tag_identifier() == catchedInstructions[i].get_mode())
+                    {
+                        catchedInstructions[i].alter(Instruction(catchedInstructions[i].get_opcode(),tags_[j].get_saved_number_pos(),"SALTO"));
+                    }
+                }
+            } else {
+                error = true;
+				cerr << "Error: Duplicated tag found, exiting [Line " << i << "]" << endl;
+				break;
+            }
+		}
+		else {
+			firstnotspace = ins[i].find_first_not_of(" \t\f\v\n\r", firstspace);
+			aux = ins[i].substr(firstnotspace);
+
+			if (aux[0] >= 48 && aux[0] <= 57){
+				if (aux.find_first_not_of("1234567890") != string::npos) {
+					error = true;
+					cerr << "Error: Unexpected symbol at instruction [Line " << i << "]" << endl;
+					break;
+				}
+				catchedInstructions[i].alter(Instruction(catchedInstructions[i].get_opcode(),"010",aux));
+			}
+			else if (aux[0] == '*'){
+				aux = aux.substr(1);
+				if (aux.length() == 0 || aux.find_first_not_of("1234567890") != string::npos) {
+					error = true;
+					cerr << "Error: Missing register number for indirect pointing [Line " << i << "]" << endl;
+					break;
+				}
+				catchedInstructions[i].alter(Instruction(catchedInstructions[i].get_opcode(),"011",aux));
+			}
+			else if (aux[0] == '=') {
+				aux = aux.substr(1);
+				if (aux.length() == 0 || aux.find_first_not_of("1234567890") != string::npos || catchedInstructions[i].get_opcode() == "0001" || catchedInstructions[i].get_opcode() == "0110") {
+					error = true;
+					cerr << "Error: Immediate Mode not allowed for instruction: " << catchedInstructions[i].get_opcode() << " [Line " << i << "]" << endl;
+					break;
+				}
+				catchedInstructions[i].alter(Instruction(catchedInstructions[i].get_opcode(),"001",aux));
+			}
+			else {
+				error = true;
+				cerr << "Error: Op for instruction: " << catchedInstructions[i].get_opcode() << " [Line " << i << "]" << endl;
+				break;
+			}
+		}
+	}
+	
+	if(error) exit(EXIT_FAILURE);
+	program_ = catchedInstructions;
 }
 
 void Program::showProgram(void) {
@@ -198,83 +222,6 @@ void Program::showProgram(void) {
             cout << "Instruction [" << i+1 << "] " << "\u15CC" << " " << program_[i].get_opcode() << ", of type 'Jump' to line (fetched from Tag): " << program_[i].get_mode() << endl;
         }
     }
-}
-
-void Program::processTags(void) {
-    bool found = false;
-    for(int i=0; i<program_.size(); i++)
-    {
-        if(program_[i].get_opcode() == "1000" || program_[i].get_opcode() == "1001" || program_[i].get_opcode() == "1010") {
-            for(int j=0; j<tags_.size(); j++) {
-                if(tags_[j].get_tag_identifier() == program_[i].get_mode())
-                {
-                    found = true;
-                    program_[i].alter(Instruction(program_[i].get_opcode(),tags_[j].get_saved_number_pos(),"SALTO"));
-                }
-            }
-            if(!found) {
-                //That Tag doesn't exist, throw exception
-                
-            }
-        } else {
-            if(program_[i].get_opcode() != "1011") {
-                program_[i].alter(Instruction(program_[i].get_opcode(),validateMode(program_[i].get_mode()),program_[i].get_op()));
-            } else {
-                program_[i].alter(Instruction(program_[i].get_opcode(),program_[i].get_mode(),program_[i].get_op()));
-            }
-        }
-    }
-}
-
-string Program::validateOperation(string op) {
-    //To lowercase, because it doesn't if you write e.g LOAD or load
-    for(int i=0; op[i]; i++) op[i] = tolower(op[i]);
-    //
-    if(op == "load") return "0000";
-    if(op == "store") return "0001";
-    if(op == "add") return "0010";
-    if(op == "sub") return "0011";
-    if(op == "mult") return "0100";
-    if(op == "div") return "0101";
-    if(op == "read") return "0110";
-    if(op == "write") return "0111";
-    if(op == "jump") return "1000";
-    if(op == "jgtz") return "1001";
-    if(op == "jzero") return "1010";
-    if(op == "halt") return "1011";
-    
-    //Illegal operation, throw exception here
-    return "-1";
-    //
-}
-
-string Program::validateMode(string mo) {
-
-    if(mo.length() > 1) {
-        if(mo[0] == '=') return "001"; //Immediate mode
-        if(mo[0] == '*') return "011"; //Indirect mode
-    } else {
-        bool isNumber = true;
-        for(string::const_iterator k = mo.begin(); k!= mo.end(); k++) {
-            if(!isdigit(*k)){
-                isNumber = false;
-                break;
-            }
-        }
-        if(isNumber) return "010"; //Direct mode
-    }
-    
-    //Not a number, maybe a Tag? Let's check it
-    bool isaTag = existTag(mo);
-    if(isaTag) {
-        return "100";
-    } else {
-        //Tiro excepcion
-    }
-    
-    //Manejar excepcion
-    return "-1";
-    //
 }
 
 bool Program::addTag(Tag tag) {

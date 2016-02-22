@@ -15,8 +15,10 @@
 using namespace std;
 
 int main(int argc, char **argv) {
-    RAMmachine ramtest("files/intape_file.in","files/outtape_file.out","files/test1.ram");
+    RAMmachine ramtest("files/intape_file.in","files/outtape_file.out","files/test2.ram");
     ramtest.run(false);
     ramtest.printOutputTape();
     ramtest.printInputTape();
+    ramtest.showMemoryStatus();
+    //ramtest.showProgram();
 }
