@@ -67,12 +67,13 @@ void UI::showMenu(RAMmachine machine_) {
         cout << "a. Show input tape\n";
         cout << "b. Show output tape\n";
         cout << "c. Show program\n";
-        cout << "d. Run\n";
-        cout << "e. Run with trace (verbose)\n";
-        cout << "f. Change input tape file\n";
-        cout << "g. Change output tape file\n";
-        cout << "h. Change program file\n";
-        cout << "i. Exit\n";
+        cout << "d. Show memory\n";
+        cout << "e. Run\n";
+        cout << "f. Run with trace (verbose)\n";
+        cout << "g. Change input tape file\n";
+        cout << "h. Change output tape file\n";
+        cout << "i. Change program file\n";
+        cout << "j. Exit\n";
         cout << "=====================================================\n";
         cout << "Introduce la letra de la funcion a ejecutar >";
       
@@ -100,16 +101,22 @@ void UI::showMenu(RAMmachine machine_) {
             case 'd':
                 cout << "\n\n\n\n\n\n\n\n\n\n" << endl;
                 system("clear");
-                machine_.run(false);
+                machine_.showMemoryStatus();
                 waitForKey();
                 break;
             case 'e':
                 cout << "\n\n\n\n\n\n\n\n\n\n" << endl;
                 system("clear");
-                machine_.run(true);
+                machine_.run(false);
                 waitForKey();
                 break;
             case 'f':
+                cout << "\n\n\n\n\n\n\n\n\n\n" << endl;
+                system("clear");
+                machine_.run(true);
+                waitForKey();
+                break;
+            case 'g':
                 cout << "\n\n\n\n\n\n\n\n\n\n" << endl;
                 system("clear");
                 
@@ -121,7 +128,7 @@ void UI::showMenu(RAMmachine machine_) {
 
                 waitForKey();
                 break;
-            case 'g':
+            case 'h':
                 cout << "\n\n\n\n\n\n\n\n\n\n" << endl;
                 system("clear");
                 
@@ -133,7 +140,7 @@ void UI::showMenu(RAMmachine machine_) {
                 
                 waitForKey();
                 break;
-            case 'h':
+            case 'i':
                 cout << "\n\n\n\n\n\n\n\n\n\n" << endl;
                 system("clear");
                 
@@ -146,7 +153,7 @@ void UI::showMenu(RAMmachine machine_) {
                 waitForKey();
                 break;
         }
-    }while(opcion!='i');
+    }while(opcion!='j');
     //
     
     system("clear");
