@@ -80,7 +80,7 @@ bool Program::loadProgramFromFile() {
 		}
 	}
 	else {
-		cerr << "Error: Couldn't open the file, exiting." << endl;
+		cerr << "Error: Couldn't open the program file, exiting." << endl;
 		exit(EXIT_FAILURE);
 	}
 	file.close();

@@ -14,7 +14,7 @@ using namespace std;
 //Implementations
 
 Memory::Memory(void) {
-    data_.assign(32, new Register());
+    data_.assign(16, new Register());
 }
 
 Memory::~Memory(void) { 
@@ -45,7 +45,7 @@ t_register_value Memory::read(int regNumber) {
 
 void Memory::reset(void) {
     data_.clear();
-    data_.assign(32, new Register());
+    data_.assign(16, new Register());
 }
 
 void Memory::print() {

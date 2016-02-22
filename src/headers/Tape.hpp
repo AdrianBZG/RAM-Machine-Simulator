@@ -33,10 +33,10 @@ class Tape
         virtual void reset() = 0;
         int getTapeSize();
         void print();
+        string getFile();
     
     protected:
         void setFile(string);
-        string getFile();
 };
 
 #endif

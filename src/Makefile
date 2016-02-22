@@ -11,11 +11,12 @@ SRC_DIR=.
 CXX=g++
 
 # Source files
-SOURCES = main.cpp RAMmachine.cpp Program.cpp Memory.cpp Register.cpp Instruction.cpp Tag.cpp PC.cpp Tape.cpp InTape.cpp OutTape.cpp
+SOURCES = main.cpp UI.cpp RAMmachine.cpp Program.cpp Memory.cpp Register.cpp Instruction.cpp Tag.cpp PC.cpp Tape.cpp InTape.cpp OutTape.cpp
 
 # Work out names of object files from sources
 #OBJECTS = $(SOURCES:.cpp=.o)
 OBJECTS=$(OBJ_DIR)/main.o \
+	$(OBJ_DIR)/UI.o \
 	$(OBJ_DIR)/RAMmachine.o \
 	$(OBJ_DIR)/Program.o \
 	$(OBJ_DIR)/Memory.o \
@@ -28,7 +29,7 @@ OBJECTS=$(OBJ_DIR)/main.o \
 	$(OBJ_DIR)/Tag.o \
 
 # Flags
-CXXFLAGS = -std=c++11 -I.
+CXXFLAGS = -std=c++11 -Wall -I.
 
 # Default target (to build all)
 all: ${TARGET}
@@ -47,6 +48,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 
 # Header dependencies
 $(OBJ_DIR)/RAMmachine.o: headers/RAMmachine.hpp
+$(OBJ_DIR)/RAMmachine.o: headers/UI.hpp
 $(OBJ_DIR)/Program.o: headers/Program.hpp
 $(OBJ_DIR)/Memory.o: headers/Memory.hpp
 $(OBJ_DIR)/Register.o: headers/Register.hpp

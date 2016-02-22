@@ -38,11 +38,14 @@ void InTape::readFromFile() {
     ifstream inputFile;
     int value_obtained;
     inputFile.open(getFile());
-    if (inputFile.is_open()) {
+    if (inputFile.good()) {
         while (!inputFile.eof()) {
             inputFile >> (int &) value_obtained;
             tape_.push_back (value_obtained);
         }
+    } else {
+        cerr << "Error: Couldn't open the input tape file, exiting." << endl;
+		exit(EXIT_FAILURE);
     }
     inputFile.close();
     //

@@ -52,10 +52,10 @@ class Program
         void reload(string);
         void reset();
         void initPC();
+        string getFile();
         
     private:
         bool addTag(Tag);
-        string getFile();
         Instruction validateOperation(string,Instruction&,string,int&);
 };
 

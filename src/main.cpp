@@ -8,17 +8,13 @@
 #include <iostream>
 #include <cstdlib>
 
-//Include the RAMmachine class header
-#include "headers/RAMmachine.hpp"
+//Include the UI class header
+#include "headers/UI.hpp"
 //
 
 using namespace std;
 
 int main(int argc, char **argv) {
-    RAMmachine ramtest("files/intape_file.in","files/outtape_file.out","files/test2.ram");
-    ramtest.run(false);
-    ramtest.printOutputTape();
-    ramtest.printInputTape();
-    ramtest.showMemoryStatus();
-    //ramtest.showProgram();
+    UI ui1;
+    ui1.init();
 }

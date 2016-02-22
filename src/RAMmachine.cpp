@@ -15,13 +15,7 @@ using namespace std;
 
 RAMmachine::RAMmachine(void) { 
     //RAMmachine with default values
-    program_ = Program("files/ramprogram.ram");
-    program_.initPC();
-    input_tape_ = InTape("files/intape_file.in");
-    input_tape_.readFromFile();
-    output_tape_ = OutTape("files/outtape_file.out");
-    memory_.reset();
-    state_ = 0;
+    initMachine("files/intape_file.in","files/outtape_file.out","files/ramprogram.ram"); 
 }
 
 RAMmachine::RAMmachine(string inFile, string outFile, string ramFile) { 

@@ -59,6 +59,11 @@ class RAMmachine
         void printInputTape();
         void printOutputTape();
         
+        inline Program getProgram() { return program_; }
+        inline InTape getInputTape() { return input_tape_; }
+        inline OutTape getOutputTape() { return output_tape_; }
+        inline void setProgram(Program prog) { program_ = prog; }
+        
     private:
     
         // Funciones para el juego de instrucciones

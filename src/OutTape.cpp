@@ -31,10 +31,13 @@ void OutTape::writeOnFile() {
     //Here we write tape's data on the output filea
     ofstream outputFile;
     outputFile.open(getFile());
-    if (outputFile.is_open()) {
+    if (outputFile.good()) {
         for(int i=0; i<getTapeSize(); i++) {
             outputFile << tape_[i] << endl;
         }
+    } else {
+        cerr << "Error: Couldn't open the output tape file, exiting." << endl;
+		exit(EXIT_FAILURE);
     }
     outputFile.close();
     //
