@@ -58,6 +58,7 @@ class RAMmachine
         void showProgram();
         void printInputTape();
         void printOutputTape();
+        void waitForKey();
         
         inline Program getProgram() { return program_; }
         inline InTape getInputTape() { return input_tape_; }

@@ -176,21 +176,124 @@ void RAMmachine::do_halt(void) {
     state_=1;
 }
 
+void RAMmachine::waitForKey(void) {
+    char selection = '0';
+    //Ask to show memory status
+    cout << "Show memory status? (y/n)" << endl;
+    cin >> selection;
+    if(selection=='y') {
+        system("clear");
+        showMemoryStatus();
+    }
+    //
+    selection = '0';
+    while(selection!='y') {
+        cout << endl << "\nType 'y' to move forward to the next iteration" << endl;
+        cin >> selection;
+    }
+    system("clear");
+}
+
 void RAMmachine::run(bool verbose) {
     while(state_==0) {
+        //Verbose mode
+        string vbMode;
+        string vbOp;
+        if(verbose) {
+            system("clear");
+            //Get a human-readable representation of the mode
+            if(program_.getPC().getPCinstruction().get_mode() == "001") vbMode = " (Immediate Mode)";
+            else if(program_.getPC().getPCinstruction().get_mode() == "010") vbMode = " (Direct Mode)";
+            else if(program_.getPC().getPCinstruction().get_mode() == "011") vbMode = " (Indirect Mode)";
+            //
+            vbOp = program_.getPC().getPCinstruction().get_op();
+        }
+        //
         //Running
-        if(program_.getPC().getPCinstruction().get_opcode() == "0000") do_load();
-        else if(program_.getPC().getPCinstruction().get_opcode() == "0001") do_store();
-        else if(program_.getPC().getPCinstruction().get_opcode() == "0010") do_add();
-        else if(program_.getPC().getPCinstruction().get_opcode() == "0011") do_sub();
-        else if(program_.getPC().getPCinstruction().get_opcode() == "0100") do_mult();
-        else if(program_.getPC().getPCinstruction().get_opcode() == "0101") do_div();
-        else if(program_.getPC().getPCinstruction().get_opcode() == "0110") do_read();
-        else if(program_.getPC().getPCinstruction().get_opcode() == "0111") do_write();
-        else if(program_.getPC().getPCinstruction().get_opcode() == "1000") do_jump();
-        else if(program_.getPC().getPCinstruction().get_opcode() == "1001") do_jgtz();
-        else if(program_.getPC().getPCinstruction().get_opcode() == "1010") do_jzero();
-        else if(program_.getPC().getPCinstruction().get_opcode() == "1011") do_halt();
+        if(program_.getPC().getPCinstruction().get_opcode() == "0000") { 
+            do_load();
+            if(verbose) {
+                cout << "Executed LOAD " << vbOp << vbMode << endl;
+                waitForKey();
+            }
+        }
+        else if(program_.getPC().getPCinstruction().get_opcode() == "0001") {
+            do_store();
+            if(verbose) {
+                cout << "Executed STORE " << vbOp << vbMode << endl;
+                waitForKey();
+            }
+        }
+        else if(program_.getPC().getPCinstruction().get_opcode() == "0010") {
+            do_add();
+            if(verbose) {
+                cout << "Executed ADD " << vbOp << vbMode << endl;
+                waitForKey();
+            }
+        }
+        else if(program_.getPC().getPCinstruction().get_opcode() == "0011") {
+            do_sub();
+            if(verbose) {
+                cout << "Executed SUB " << vbOp << vbMode << endl;
+                waitForKey();
+            }
+        }
+        else if(program_.getPC().getPCinstruction().get_opcode() == "0100") {
+            do_mult();
+            if(verbose) {
+                cout << "Executed MULT " << vbOp << vbMode << endl;
+                waitForKey();
+            }
+        }
+        else if(program_.getPC().getPCinstruction().get_opcode() == "0101") {
+            do_div();
+            if(verbose) {
+                cout << "Executed DIV " << vbOp << vbMode << endl;
+                waitForKey();
+            }
+        }
+        else if(program_.getPC().getPCinstruction().get_opcode() == "0110") {
+            do_read();
+            if(verbose) {
+                cout << "Executed READ " << vbOp << vbMode << endl;
+                waitForKey();
+            }
+        }
+        else if(program_.getPC().getPCinstruction().get_opcode() == "0111") {
+            do_write();
+            if(verbose) {
+                cout << "Executed WRITE " << vbOp << vbMode << endl;
+                waitForKey();
+            }
+        }
+        else if(program_.getPC().getPCinstruction().get_opcode() == "1000") {
+            do_jump();
+            if(verbose) {
+                cout << "Executed JUMP to line " << vbMode << " (fetched from Tag)" << endl;
+                waitForKey();
+            }
+        }
+        else if(program_.getPC().getPCinstruction().get_opcode() == "1001") {
+            do_jgtz();
+            if(verbose) {
+                cout << "Executed JGTZ to line " << vbMode << " (fetched from Tag)" << endl;
+                waitForKey();
+            }
+        }
+        else if(program_.getPC().getPCinstruction().get_opcode() == "1010") {
+            do_jzero();
+            if(verbose) {
+                cout << "Executed JZERO to line " << vbMode << " (fetched from Tag)" << endl;
+                waitForKey();
+            }
+        }
+        else if(program_.getPC().getPCinstruction().get_opcode() == "1011") {
+            do_halt();
+            if(verbose) {
+                cout << "Executed HALT" << endl;
+                waitForKey();
+            }
+        }
         else { 
             cerr << "Error: Unknown instruction" << endl;
             exit(EXIT_FAILURE);

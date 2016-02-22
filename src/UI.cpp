@@ -63,7 +63,7 @@ void UI::showMenu(RAMmachine machine_) {
     do {
         cout << endl << "=====================================================\n";
         cout << "RAM Machine Simulator\n";
-        cout << "By Adrian Rodriguez Bazaga (AdrianBZG)\n";
+        cout << "By Adrian Rodriguez Bazaga (https://www.github.com/AdrianBZG)\n";
         cout << "a. Show input tape\n";
         cout << "b. Show output tape\n";
         cout << "c. Show program\n";
