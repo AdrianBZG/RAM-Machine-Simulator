@@ -29,7 +29,7 @@ OBJECTS=$(OBJ_DIR)/main.o \
 	$(OBJ_DIR)/Tag.o \
 
 # Flags
-CXXFLAGS = -std=c++11 -Wall -I.
+CXXFLAGS = -std=c++11 -I.
 
 # Default target (to build all)
 all: ${TARGET}

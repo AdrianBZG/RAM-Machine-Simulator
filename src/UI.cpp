@@ -70,12 +70,12 @@ void UI::showMenu(RAMmachine machine_) {
         cout << "d. Show memory\n";
         cout << "e. Run\n";
         cout << "f. Run with trace (verbose)\n";
-        cout << "g. Change input tape file\n";
-        cout << "h. Change output tape file\n";
-        cout << "i. Change program file\n";
+        cout << "g. Change input tape file (Current: " << machine_.getInputTape().getFile() << ")" << "\n";
+        cout << "h. Change output tape file (Current: " << machine_.getOutputTape().getFile() << ")" << "\n";
+        cout << "i. Change program file (Current: " << machine_.getProgram().getFile() << ")" << "\n";
         cout << "j. Exit\n";
         cout << "=====================================================\n";
-        cout << "Introduce la letra de la funcion a ejecutar >";
+        cout << "Choose your option >";
       
 
         cin >> opcion;

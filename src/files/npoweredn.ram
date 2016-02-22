@@ -1,0 +1,23 @@
+; Programa que calcula n^n
+      READ 1
+      LOAD 1
+      JGTZ else
+      WRITE =0
+      HALT
+else: LOAD 1
+      STORE 2
+      LOAD 1
+      SUB =1
+      STORE 3
+while: LOAD 3
+       JGTZ bucle
+       JUMP fin_while
+bucle: LOAD 2
+       MULT 1
+       STORE 2
+       LOAD 3
+       SUB =1
+       STORE 3
+       JUMP while
+fin_while: WRITE 2
+           HALT
