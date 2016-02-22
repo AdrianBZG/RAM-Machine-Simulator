@@ -11,7 +11,7 @@ $ sudo apt-get install build-essential
 Uses *C++11*
 
 ## Build Status
-![](http://i.imgur.com/eqqnBZv.png?1)
+![](http://i.imgur.com/7gvWrxI.png?1)
 
 ## How to compile?
 ### Use make inside the /src/ directory. Compilation uses dynamic linking, so only classes that have changed will be compiled, the others will be linked using the object (.o) that's inside ./obj/ directory.
