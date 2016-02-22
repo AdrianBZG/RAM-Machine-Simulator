@@ -36,13 +36,6 @@ class RAMmachine
         Program program_;
         InTape input_tape_;
         OutTape output_tape_;
-        // Poliformismo en tiempo de ejecución
-        // Tape* input_tape_;
-        // Tape* output_tape_;
-        // if(input_tape_ = dynamic_cast<InTape*>(input_tape_))
-        // if(output_tape_ = dynamic_cast<OutTape*>(output_tape_))
-        // Manejar excepciones en caso de transformacion no satisfactoria
-        //
         unsigned state_; //RAM machine state -> 0 = Normal, 1 = Halt, 2 = Failed
         
     public:
