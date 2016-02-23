@@ -187,7 +187,7 @@ Instruction Program::validateOperation(string str,Instruction& dum, string str2,
 	else if (str == "SUB" || str == "sub") {
 		dum.alter(Instruction("0011","-1","-1"));
 	}
-	else if (str == "MULT" || str == "mult") {
+	else if (str == "MUL" || str == "mul") {
 		dum.alter(Instruction("0100","-1","-1"));
 	}
 	else if (str == "DIV" || str == "div") {

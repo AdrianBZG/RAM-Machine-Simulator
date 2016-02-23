@@ -5,7 +5,7 @@
 			LOAD 1
 			JZERO fin
 			LOAD 1
-			MULT =2
+			MUL =2
 			STORE 1
 			WRITE 1
 			JUMP bucle

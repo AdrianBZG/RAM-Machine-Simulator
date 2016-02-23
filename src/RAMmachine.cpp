@@ -104,7 +104,7 @@ void RAMmachine::do_sub(void) {
     program_.moveToNextInstruction();
 }
 
-void RAMmachine::do_mult(void) {
+void RAMmachine::do_mul(void) {
     Instruction currentIns = program_.getPC().getPCinstruction();
 
     if(currentIns.get_mode() == "011") memory_.writeAccum(memory_.readAccum()*memory_.read(memory_.read(stoi(currentIns.get_op()))));  //Indirect
@@ -239,9 +239,9 @@ void RAMmachine::run(bool verbose) {
             }
         }
         else if(program_.getPC().getPCinstruction().get_opcode() == "0100") {
-            do_mult();
+            do_mul();
             if(verbose) {
-                cout << "Executed MULT " << vbOp << vbMode << endl;
+                cout << "Executed MUL " << vbOp << vbMode << endl;
                 waitForKey();
             }
         }

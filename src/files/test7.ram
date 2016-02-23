@@ -27,7 +27,7 @@ condition: LOAD 1
           SUB =1		; n = n - 1
 	  STORE 1
           LOAD *2
-          MULT *2
+          MUL *2
           STORE *2		; a[i] = a[i] * a[i]
           LOAD 2
           ADD =1		; i++

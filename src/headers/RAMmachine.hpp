@@ -65,7 +65,7 @@ class RAMmachine
         void do_store();
         void do_add();
         void do_sub();
-        void do_mult();
+        void do_mul();
         void do_div();
         void do_read();
         void do_write();
