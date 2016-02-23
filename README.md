@@ -15,6 +15,11 @@ Uses *C++11*
 
 # How to compile?
 Use make inside the /src/ directory. Compilation uses dynamic linking, so only classes that have changed will be compiled, the others will be linked using the object (.o) that's inside ./obj/ directory.
+```sh
+$ make clean
+$ make
+```
+
 
 # How to execute?
 The result of the compilation is placed inside /src/compiled folder, with the name RAMmachine, to execute it just use ./src/compiled/RAMmachine from the root directory
