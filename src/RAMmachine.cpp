@@ -182,7 +182,7 @@ void RAMmachine::waitForKey(void) {
     cout << "Show memory status? (y/n)" << endl;
     cin >> selection;
     if(selection=='y') {
-        system("clear");
+        system("clear"); //Clean the screen
         showMemoryStatus();
     }
     //
@@ -191,7 +191,7 @@ void RAMmachine::waitForKey(void) {
         cout << endl << "\nType 'y' to move forward to the next iteration" << endl;
         cin >> selection;
     }
-    system("clear");
+    system("clear"); //Clean the screen
 }
 
 void RAMmachine::run(bool verbose) {
@@ -200,7 +200,7 @@ void RAMmachine::run(bool verbose) {
         string vbMode;
         string vbOp;
         if(verbose) {
-            system("clear");
+            system("clear"); //Clean the screen
             //Get a human-readable representation of the mode
             if(program_.getPC().getPCinstruction().get_mode() == "001") vbMode = " (Immediate Mode)";
             else if(program_.getPC().getPCinstruction().get_mode() == "010") vbMode = " (Direct Mode)";

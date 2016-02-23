@@ -28,6 +28,7 @@ void UI::init(void) {
     string str2; //Here the output tape file
     string str3; //Here the program filee
     
+    system("clear"); //Clean the screen
     cout << "Write the name of the Input Tape file:" << endl;
     cin >> str1;
     system("clear");
@@ -36,7 +37,7 @@ void UI::init(void) {
     system("clear");
     cout << "Write the name of the Program file:" << endl;
     cin >> str3;
-    system("clear");
+    system("clear"); //Clean the screen
     
     machine_ = RAMmachine(str1,str2,str3); //Now we update the machine with the new files
     //
@@ -52,7 +53,7 @@ void UI::waitForKey(void) {
         cout << "\nType 'y' to go back to the menu" << endl;
         cin >> selection;
     }
-    system("clear");
+    system("clear"); //Clean the screen
 }
 
 void UI::showMenu(RAMmachine machine_) {
@@ -82,43 +83,43 @@ void UI::showMenu(RAMmachine machine_) {
         switch (opcion){
             case 'a':
                 cout << "\n\n\n\n\n\n\n\n\n\n" << endl;
-                system("clear");
+                system("clear"); //Clean the screen
                 machine_.printInputTape();
                 waitForKey();
                 break;
             case 'b':
                 cout << "\n\n\n\n\n\n\n\n\n\n" << endl;
-                system("clear");
+                system("clear"); //Clean the screen
                 machine_.printOutputTape();
                 waitForKey();
                 break;
             case 'c':
                 cout << "\n\n\n\n\n\n\n\n\n\n" << endl;
-                system("clear");
+                system("clear"); //Clean the screen
                 machine_.showProgram();
                 waitForKey();
                 break;
             case 'd':
                 cout << "\n\n\n\n\n\n\n\n\n\n" << endl;
-                system("clear");
+                system("clear"); //Clean the screen
                 machine_.showMemoryStatus();
                 waitForKey();
                 break;
             case 'e':
                 cout << "\n\n\n\n\n\n\n\n\n\n" << endl;
-                system("clear");
+                system("clear"); //Clean the screen
                 machine_.run(false);
                 waitForKey();
                 break;
             case 'f':
                 cout << "\n\n\n\n\n\n\n\n\n\n" << endl;
-                system("clear");
+                system("clear"); //Clean the screen
                 machine_.run(true);
                 waitForKey();
                 break;
             case 'g':
                 cout << "\n\n\n\n\n\n\n\n\n\n" << endl;
-                system("clear");
+                system("clear"); //Clean the screen
                 
                 str1.clear();
                 cout << "Write the name of the new Input Tape file:" << endl;
@@ -130,7 +131,7 @@ void UI::showMenu(RAMmachine machine_) {
                 break;
             case 'h':
                 cout << "\n\n\n\n\n\n\n\n\n\n" << endl;
-                system("clear");
+                system("clear"); //Clean the screen
                 
                 str1.clear();
                 cout << "Write the name of the new Output Tape file:" << endl;
@@ -142,7 +143,7 @@ void UI::showMenu(RAMmachine machine_) {
                 break;
             case 'i':
                 cout << "\n\n\n\n\n\n\n\n\n\n" << endl;
-                system("clear");
+                system("clear"); //Clean the screen
                 
                 str1.clear();
                 cout << "Write the name of the new Program file:" << endl;
@@ -156,7 +157,7 @@ void UI::showMenu(RAMmachine machine_) {
     }while(opcion!='j');
     //
     
-    system("clear");
+    system("clear"); //Clean the screen
     cout << "You have exited the program succesfully (Code 1)" << endl;
 }
 
